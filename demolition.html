@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>해체계획서 작성 – 선풍건설산업</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero { background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; padding: 60px 24px; text-align: center; }
+    .page-hero h1 { font-size: 36px; font-weight: 900; }
+    .page-hero p { font-size: 16px; color: #cbd5e1; margin-top: 12px; }
+    .launch-card { background: linear-gradient(135deg, #1e1b4b, #312e81); border-radius: 24px; padding: 48px; color: #fff; text-align: center; margin-bottom: 40px; }
+    .launch-card .icon { font-size: 80px; margin-bottom: 24px; }
+    .launch-card h2 { font-size: 32px; font-weight: 900; margin-bottom: 12px; }
+    .launch-card p { font-size: 16px; color: #c7d2fe; margin-bottom: 32px; line-height: 1.7; }
+    .launch-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--green); color: #fff; padding: 18px 48px; border-radius: 50px; font-size: 18px; font-weight: 800; box-shadow: 0 8px 32px rgba(34,197,94,.4); transition: transform .2s, box-shadow .2s; }
+    .launch-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34,197,94,.5); }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feature-card { background: #fff; border-radius: 16px; padding: 28px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    .feature-card .icon { font-size: 40px; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .feature-card p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+    .step-list { counter-reset: steps; display: flex; flex-direction: column; gap: 16px; }
+    .step-item { display: flex; gap: 20px; align-items: flex-start; counter-increment: steps; }
+    .step-item::before { content: counter(steps); width: 36px; height: 36px; background: var(--navy); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; font-size: 14px; }
+    .step-item h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .step-item p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+    @media(max-width:768px) { .feature-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">SP</div>
+      <div class="logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div>
+    </a>
+    <nav>
+      <a href="index.html">HOME 홈</a>
+      <a href="about.html">ABOUT US 회사소개</a>
+      <a href="services.html">SERVICES 서비스</a>
+      <a href="projects.html">PROJECTS 프로젝트</a>
+      <a href="board.html">공지/게시판</a>
+      <a href="demolition.html" class="btn-demo active">해체계획서 작성</a>
+      <a href="contact.html">CONTACT 문의하기</a>
+    </nav>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <h1>AI 해체계획서 자동 작성</h1>
+  <p>광주광역시 5개 구청 제출용 · 신고제/허가제 자동 판별 · Claude AI 문구 생성 · CAD 도면 자동 생성</p>
+</div>
+
+<section>
+  <div class="section-inner" style="max-width:900px">
+    <div class="launch-card">
+      <div class="icon">📋</div>
+      <h2>광주광역시 건축물 해체계획서</h2>
+      <p>건축물 정보를 입력하면 AI가 자동으로 해체계획서를 작성합니다.<br>
+         신고제/허가제 자동 판별 · 5개 구청 맞춤 서류 · PDF 출력까지 원스톱.</p>
+      <a href="https://wangun1004.github.io/gwangju-demolition/" target="_blank" class="launch-btn">
+        🚀 해체계획서 작성 시작
+      </a>
+      <p style="font-size:13px; color:#a5b4fc; margin-top:20px; margin-bottom:0;">새 탭에서 열립니다 · 무료 사용 · 데이터는 기기에만 저장</p>
+    </div>
+
+    <div style="margin-bottom:48px">
+      <div class="section-tag">FEATURES</div>
+      <h2 class="section-title">주요 기능</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="icon">⚖️</div>
+          <h3>신고제 / 허가제 자동 판별</h3>
+          <p>연면적·층수·높이 입력만으로 신고제와 허가제를 실시간으로 자동 판별합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🤖</div>
+          <h3>Claude AI 문구 자동 생성</h3>
+          <p>해체 사유, 순서, 비산먼지·소음 저감 계획, 폐기물 처리 계획을 AI가 자동 작성합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📐</div>
+          <h3>CAD 도면 자동 생성</h3>
+          <p>연면적·층수 기반 배치도를 자동 생성하고 DXF(AutoCAD) / SVG 파일로 다운로드합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🏛</div>
+          <h3>5개 구청 맞춤 대응</h3>
+          <p>동구·서구·남구·북구·광산구 각 구청의 요구사항을 반영한 서류를 자동 생성합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🖨️</div>
+          <h3>PDF 출력</h3>
+          <p>브라우저 인쇄 기능으로 즉시 PDF 저장 및 출력이 가능합니다.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🔒</div>
+          <h3>데이터 보안</h3>
+          <p>입력한 모든 데이터는 사용자 기기의 로컬 스토리지에만 저장되며 외부 전송되지 않습니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--light); border-radius:20px; padding:40px;">
+      <div class="section-tag">HOW TO USE</div>
+      <h2 class="section-title">사용 방법</h2>
+      <div class="step-list">
+        <div class="step-item">
+          <div>
+            <h4>건축물 기본 정보 입력</h4>
+            <p>관할 구청, 소재지, 건축물 용도·구조·연면적·층수·높이를 입력하면 신고제/허가제가 자동 판별됩니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div>
+            <h4>건축주 및 시공업체 정보 입력</h4>
+            <p>건축주(발주자)와 시공업체 정보, 공사 기간을 입력합니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div>
+            <h4>AI 자동 생성</h4>
+            <p>API 키를 설정한 후 AI 자동 생성 버튼을 누르면 해체 계획 문구가 자동으로 작성됩니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div>
+            <h4>안전·폐기물 계획 입력</h4>
+            <p>비산먼지·소음 저감 계획, 폐기물 종류별 발생량 예측과 처리 계획을 입력합니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div>
+            <h4>도면 업로드 및 CAD 자동 생성</h4>
+            <p>위치도·배치도 등 첨부 도면을 업로드하고, 자동 생성된 CAD 배치도를 다운로드합니다.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div>
+            <h4>PDF 출력 및 구청 제출</h4>
+            <p>최종 확인 후 PDF로 저장하여 관할 구청에 제출합니다. 제출 서류 체크리스트도 자동 제공됩니다.</p>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:32px; text-align:center;">
+        <a href="https://wangun1004.github.io/gwangju-demolition/" target="_blank" class="launch-btn" style="display:inline-flex;">
+          📋 지금 바로 작성하기
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="section-inner">
+    <h2>행정 대행이 필요하신가요?</h2>
+    <p>해체계획서 작성부터 구청 제출까지 대행해드립니다</p>
+    <div class="cta-btns">
+      <a href="contact.html" class="btn-white">📞 대행 문의하기</a>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo"><div class="footer-logo-icon">SP</div><div class="footer-logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div></div>
+        <p class="footer-desc">광주·전남 철거·해체 전문 기업</p>
+      </div>
+      <div class="footer-col"><h4>바로가기</h4><a href="about.html">회사소개</a><a href="services.html">서비스</a><a href="contact.html">문의하기</a></div>
+      <div class="footer-col"><h4>연락처</h4><li>📞 015-125-9770</li><li>✉️ contact@sunpoong.co.kr</li></div>
+    </div>
+    <div class="footer-bottom"><div>© 2025 선풍건설산업. All rights reserved.</div></div>
+  </div>
+</footer>
+<script src="js/config.js"></script><script src="js/app.js"></script>
+</body>
+</html>

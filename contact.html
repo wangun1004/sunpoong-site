@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>견적 문의 – 선풍건설산업</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero { background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; padding: 60px 24px; text-align: center; }
+    .page-hero h1 { font-size: 36px; font-weight: 900; }
+    .page-hero p { font-size: 16px; color: #cbd5e1; margin-top: 12px; }
+    .contact-card { background: #fff; border-radius: 20px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,.06); display: flex; gap: 16px; align-items: flex-start; }
+    .contact-card .icon { font-size: 32px; flex-shrink: 0; }
+    .contact-card h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .contact-card p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+    .success-box { background: #dcfce7; border: 1px solid #86efac; border-radius: 16px; padding: 32px; text-align: center; display: none; }
+    .success-box .icon { font-size: 48px; margin-bottom: 12px; }
+    .success-box h3 { font-size: 20px; font-weight: 800; color: #166534; margin-bottom: 8px; }
+    .success-box p { font-size: 14px; color: #15803d; }
+  </style>
+</head>
+<body>
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">SP</div>
+      <div class="logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div>
+    </a>
+    <nav>
+      <a href="index.html">HOME 홈</a>
+      <a href="about.html">ABOUT US 회사소개</a>
+      <a href="services.html">SERVICES 서비스</a>
+      <a href="projects.html">PROJECTS 프로젝트</a>
+      <a href="board.html">공지/게시판</a>
+      <a href="demolition.html" class="btn-demo">해체계획서 작성</a>
+      <a href="contact.html" class="active">CONTACT 문의하기</a>
+    </nav>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <h1>견적 문의</h1>
+  <p>무료 현장 방문 견적을 신청하세요 · 당일 회신</p>
+</div>
+
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div>
+          <div class="section-tag">CONTACT</div>
+          <h2 class="section-title">문의하기</h2>
+          <p style="font-size:14px;color:var(--gray);line-height:1.8;margin-bottom:32px;">
+            철거·해체·커팅·폐기물 처리 관련 문의를 남겨주시면<br>
+            빠르게 연락드리겠습니다. 무료 현장 방문 견적을 제공합니다.
+          </p>
+        </div>
+        <div class="contact-card">
+          <div class="icon">📞</div>
+          <div>
+            <h4>전화 문의</h4>
+            <p>015-125-9770<br><span style="font-size:12px">평일 08:00 ~ 18:00</span></p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon">✉️</div>
+          <div>
+            <h4>이메일 문의</h4>
+            <p>contact@sunpoong.co.kr</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon">📍</div>
+          <div>
+            <h4>주소</h4>
+            <p>광주광역시 ○○구 ○○로 1205<br><span style="font-size:12px">광주 전 지역 출장 가능</span></p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon">💬</div>
+          <div>
+            <h4>카카오톡 채널</h4>
+            <p>@선풍건설산업<br><span style="font-size:12px">빠른 답변 가능</span></p>
+          </div>
+        </div>
+        <div style="margin-top:8px;padding:20px;background:var(--light);border-radius:16px;">
+          <p style="font-size:13px;color:var(--navy);font-weight:700;margin-bottom:8px;">🤖 해체계획서가 필요하신가요?</p>
+          <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">AI 자동화 시스템으로 광주 5개 구청 제출용 서류를 즉시 작성하세요</p>
+          <a href="demolition.html" style="display:inline-block;background:var(--green);color:#fff;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:700;">해체계획서 작성 →</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="success-box" id="successBox">
+          <div class="icon">✅</div>
+          <h3>문의가 접수되었습니다!</h3>
+          <p>빠른 시일 내에 담당자가 연락드리겠습니다.<br>평균 응답 시간: 2시간 이내 (업무 시간 기준)</p>
+          <button onclick="resetForm()" style="margin-top:16px;background:var(--green);color:#fff;border:none;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">새 문의 작성</button>
+        </div>
+
+        <form class="inquiry-form" id="inquiryForm" onsubmit="submitForm(event)">
+          <h3 style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:20px;">견적 문의서</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>성함 <span style="color:red">*</span></label>
+              <input type="text" id="f_name" placeholder="홍길동" required>
+            </div>
+            <div class="form-group">
+              <label>연락처 <span style="color:red">*</span></label>
+              <input type="tel" id="f_phone" placeholder="010-0000-0000" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>이메일</label>
+              <input type="email" id="f_email" placeholder="example@email.com">
+            </div>
+            <div class="form-group">
+              <label>회사/상호명</label>
+              <input type="text" id="f_company" placeholder="(주)○○건설">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full">
+              <label>현장 주소 <span style="color:red">*</span></label>
+              <input type="text" id="f_address" placeholder="광주광역시 ○○구 ○○동 000번지" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>연면적 (㎡)</label>
+              <input type="number" id="f_area" placeholder="0" min="0">
+            </div>
+            <div class="form-group">
+              <label>구조 종류</label>
+              <select id="f_structure">
+                <option value="">선택</option>
+                <option>철근콘크리트(RC)</option>
+                <option>철골구조</option>
+                <option>조적조(벽돌)</option>
+                <option>목구조</option>
+                <option>기타</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full">
+              <label>서비스 유형 <span style="color:red">*</span></label>
+              <select id="f_service" required>
+                <option value="">선택하세요</option>
+                <option>건축물 해체 공사</option>
+                <option>상가·사무실 내부 철거</option>
+                <option>콘크리트 정밀 커팅</option>
+                <option>건설 폐기물 처리</option>
+                <option>해체계획서 행정 대행</option>
+                <option>기타</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full">
+              <label>문의 내용</label>
+              <textarea id="f_message" rows="4" placeholder="공사 일정, 특이사항 등 자세한 내용을 입력해주세요"></textarea>
+            </div>
+          </div>
+          <p style="font-size:12px;color:var(--gray);margin-bottom:12px;">
+            ※ 입력하신 정보는 견적 제공 목적으로만 사용됩니다.
+          </p>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            📨 견적 문의 제출
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo"><div class="footer-logo-icon">SP</div><div class="footer-logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div></div>
+        <p class="footer-desc">광주·전남 철거·해체 전문 기업</p>
+      </div>
+      <div class="footer-col"><h4>바로가기</h4><a href="about.html">회사소개</a><a href="services.html">서비스</a><a href="contact.html">문의하기</a></div>
+      <div class="footer-col"><h4>연락처</h4><li>📞 015-125-9770</li><li>✉️ contact@sunpoong.co.kr</li></div>
+    </div>
+    <div class="footer-bottom"><div>© 2025 선풍건설산업. All rights reserved.</div></div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/db.js"></script>
+<script>
+async function submitForm(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> 제출 중...';
+
+  const data = {
+    name:         document.getElementById('f_name').value.trim(),
+    phone:        document.getElementById('f_phone').value.trim(),
+    email:        document.getElementById('f_email').value.trim(),
+    company:      document.getElementById('f_company').value.trim(),
+    address:      document.getElementById('f_address').value.trim(),
+    area:         parseFloat(document.getElementById('f_area').value) || null,
+    structure:    document.getElementById('f_structure').value,
+    service_type: document.getElementById('f_service').value,
+    message:      document.getElementById('f_message').value.trim(),
+    status:       'pending',
+  };
+
+  try {
+    await submitInquiry(data);
+    document.getElementById('inquiryForm').style.display = 'none';
+    document.getElementById('successBox').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('successBox').offsetTop - 80, behavior: 'smooth' });
+  } catch(err) {
+    toast('제출 오류: ' + err.message, 'error');
+    btn.disabled = false;
+    btn.innerHTML = '📨 견적 문의 제출';
+  }
+}
+
+function resetForm() {
+  document.getElementById('inquiryForm').reset();
+  document.getElementById('inquiryForm').style.display = 'block';
+  document.getElementById('successBox').style.display = 'none';
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').innerHTML = '📨 견적 문의 제출';
+}
+</script>
+</body>
+</html>
