@@ -10,26 +10,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="home-page">
 
 <!-- 헤더 -->
 <header id="header">
   <div class="header-inner">
     <a href="index.html" class="logo">
-      <div class="logo-icon">SP</div>
+      <div class="logo-icon">
+        <span class="logo-s">S</span><span class="logo-p">p</span>
+      </div>
       <div class="logo-text">
         <div class="en">DEMOLITION</div>
         <div class="kr">선풍건설산업</div>
       </div>
     </a>
     <nav id="nav">
-      <a href="index.html" class="active">HOME 홈</a>
-      <a href="about.html">ABOUT US 회사소개</a>
-      <a href="services.html">SERVICES 서비스</a>
-      <a href="projects.html">PROJECTS 프로젝트</a>
-      <a href="board.html">공지/게시판</a>
-      <a href="demolition.html" class="btn-demo">해체계획서 작성</a>
-      <a href="contact.html">CONTACT 문의하기</a>
+      <a href="index.html" class="active">HOME <span>홈</span></a>
+      <a href="about.html">ABOUT US <span>회사소개</span></a>
+      <a href="services.html">SERVICES <span>서비스</span></a>
+      <a href="projects.html">PROJECTS <span>프로젝트</span></a>
+      <a href="demolition.html">해체계획서<br><span>작성</span></a>
+      <a href="contact.html">CONTACT <span>문의하기</span></a>
     </nav>
     <button class="hamburger" aria-label="메뉴">
       <span></span><span></span><span></span>
@@ -40,33 +41,16 @@
 <!-- 히어로 -->
 <section id="hero">
   <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
   <div class="hero-inner">
     <div class="hero-content">
-      <div class="hero-badge">철거 및 커팅 · 폐기물 처리 전문</div>
-      <div class="hero-sp">SP</div>
-      <div class="hero-logo-en">DEMOLITION</div>
-      <div class="hero-logo-kr">선풍건설산업</div>
-      <div class="hero-tagline">철거 및 커팅 · 폐기물 처리 전문</div>
-      <a href="contact.html" class="hero-cta">
-        <span>🏗</span>
-        <span class="kr">견적 문의</span>
-      </a>
-    </div>
-    <div class="hero-right">
-      <div class="hero-stats">
-        <div class="stat-card">
-          <div class="stat-num">20<span style="font-size:24px">년+</span></div>
-          <div class="stat-label">풍부한 시공 경험</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">1,200<span style="font-size:24px">+</span></div>
-          <div class="stat-label">누적 시공 현장</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">5<span style="font-size:24px">개 구청</span></div>
-          <div class="stat-label">광주광역시 전역 대응</div>
-        </div>
+      <div class="hero-logo-mark">
+        <span class="hl-s">S</span><span class="hl-p">p</span>
       </div>
+      <div class="hero-en">DEMOLITION</div>
+      <div class="hero-kr">선풍건설산업</div>
+      <div class="hero-badge">철거 및 커팅·폐기물 처리 전문</div>
+      <a href="contact.html" class="hero-cta">견적 문의</a>
     </div>
   </div>
 </section>
@@ -75,7 +59,22 @@
 <div id="services-bar">
   <div class="services-bar-inner">
     <div class="svc-card">
-      <div class="svc-icon">🏚</div>
+      <div class="svc-icon">
+        <!-- 상가 내부철거 아이콘 -->
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="28" width="42" height="40" rx="2" fill="#d97706" stroke="#92400e" stroke-width="2"/>
+          <rect x="8" y="28" width="10" height="10" fill="#fde68a" stroke="#92400e" stroke-width="1.5"/>
+          <rect x="22" y="28" width="10" height="10" fill="#fde68a" stroke="#92400e" stroke-width="1.5"/>
+          <rect x="36" y="28" width="14" height="40" fill="#b45309" stroke="#92400e" stroke-width="1.5"/>
+          <rect x="8" y="42" width="10" height="10" fill="#fde68a" stroke="#92400e" stroke-width="1.5"/>
+          <rect x="22" y="42" width="10" height="10" fill="#fde68a" stroke="#92400e" stroke-width="1.5"/>
+          <rect x="14" y="56" width="18" height="12" rx="1" fill="#7c3aed"/>
+          <!-- 망치 -->
+          <rect x="48" y="8" width="8" height="18" rx="2" fill="#1e3a5f" transform="rotate(35 52 17)"/>
+          <rect x="54" y="4" width="20" height="10" rx="3" fill="#334155" transform="rotate(35 64 9)"/>
+          <circle cx="56" cy="14" r="3" fill="#94a3b8"/>
+        </svg>
+      </div>
       <div class="svc-title">상가 내부철거</div>
       <ul class="svc-list">
         <li>점포 및 사무실 인테리어 해체</li>
@@ -83,7 +82,24 @@
       </ul>
     </div>
     <div class="svc-card">
-      <div class="svc-icon">🔨</div>
+      <div class="svc-icon">
+        <!-- 부분 철거 아이콘 -->
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- 깨진 바위/건물 -->
+          <polygon points="10,65 28,30 42,50 55,25 70,65" fill="#94a3b8" stroke="#64748b" stroke-width="1.5"/>
+          <polygon points="10,65 28,30 20,65" fill="#64748b"/>
+          <polygon points="42,50 55,25 62,50 55,65" fill="#475569"/>
+          <!-- 균열선 -->
+          <polyline points="28,30 35,42 30,50 38,58" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+          <!-- 망치 -->
+          <line x1="58" y1="10" x2="40" y2="38" stroke="#1e3a5f" stroke-width="5" stroke-linecap="round"/>
+          <rect x="52" y="4" width="22" height="12" rx="4" fill="#1a2f5e" transform="rotate(-45 63 10)"/>
+          <!-- 파편 -->
+          <circle cx="22" cy="22" r="3" fill="#94a3b8"/>
+          <circle cx="65" cy="35" r="2" fill="#94a3b8"/>
+          <circle cx="15" cy="40" r="2.5" fill="#64748b"/>
+        </svg>
+      </div>
       <div class="svc-title">부분 철거</div>
       <ul class="svc-list">
         <li>안전한 대형 건축물 해체</li>
@@ -91,7 +107,26 @@
       </ul>
     </div>
     <div class="svc-card">
-      <div class="svc-icon">⚙️</div>
+      <div class="svc-icon">
+        <!-- 정밀 커팅 아이콘 -->
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="30" fill="#94a3b8" stroke="#64748b" stroke-width="2"/>
+          <circle cx="40" cy="40" r="20" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+          <circle cx="40" cy="40" r="6" fill="#475569" stroke="#334155" stroke-width="1.5"/>
+          <!-- 톱니 -->
+          <polygon points="40,8 43,14 37,14" fill="#1a2f5e"/>
+          <polygon points="40,72 43,66 37,66" fill="#1a2f5e"/>
+          <polygon points="8,40 14,43 14,37" fill="#1a2f5e"/>
+          <polygon points="72,40 66,43 66,37" fill="#1a2f5e"/>
+          <polygon points="17,17 22,24 15,24" fill="#1a2f5e" transform="rotate(45 40 40) translate(-23,-23)"/>
+          <polygon points="17,17 22,24 15,24" fill="#1a2f5e" transform="rotate(135 40 40) translate(-23,-23)"/>
+          <polygon points="17,17 22,24 15,24" fill="#1a2f5e" transform="rotate(225 40 40) translate(-23,-23)"/>
+          <polygon points="17,17 22,24 15,24" fill="#1a2f5e" transform="rotate(315 40 40) translate(-23,-23)"/>
+          <!-- 커팅 불꽃 -->
+          <ellipse cx="64" cy="54" rx="5" ry="3" fill="#f59e0b" transform="rotate(-30 64 54)"/>
+          <ellipse cx="68" cy="50" rx="3" ry="2" fill="#fbbf24" transform="rotate(-30 68 50)"/>
+        </svg>
+      </div>
       <div class="svc-title">정밀 커팅</div>
       <ul class="svc-list">
         <li>콘크리트 및 와이어 커팅</li>
@@ -99,7 +134,29 @@
       </ul>
     </div>
     <div class="svc-card">
-      <div class="svc-icon">🚛</div>
+      <div class="svc-icon">
+        <!-- 폐기물 처리 아이콘 (덤프트럭) -->
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- 트럭 몸체 -->
+          <rect x="4" y="38" width="60" height="24" rx="3" fill="#22c55e" stroke="#16a34a" stroke-width="1.5"/>
+          <!-- 짐칸 (기울어진) -->
+          <polygon points="8,20 52,20 60,38 4,38" fill="#16a34a" stroke="#15803d" stroke-width="1.5"/>
+          <!-- 캡 -->
+          <rect x="56" y="30" width="20" height="32" rx="3" fill="#15803d" stroke="#166534" stroke-width="1.5"/>
+          <rect x="58" y="32" width="14" height="10" rx="2" fill="#bfdbfe" stroke="#93c5fd" stroke-width="1"/>
+          <!-- 바퀴 -->
+          <circle cx="18" cy="64" r="10" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="18" cy="64" r="5" fill="#64748b"/>
+          <circle cx="50" cy="64" r="10" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="50" cy="64" r="5" fill="#64748b"/>
+          <circle cx="68" cy="64" r="8" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+          <circle cx="68" cy="64" r="4" fill="#64748b"/>
+          <!-- 폐기물 -->
+          <line x1="15" y1="24" x2="20" y2="35" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+          <line x1="28" y1="22" x2="30" y2="36" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+          <line x1="40" y1="22" x2="38" y2="36" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div class="svc-title">폐기물 처리</div>
       <ul class="svc-list">
         <li>폐기물 수집 및 운반</li>
@@ -113,184 +170,49 @@
   </div>
 </div>
 
-<!-- 회사소개 섹션 -->
-<section id="about">
-  <div class="section-inner">
-    <div class="about-grid">
-      <div class="about-img">🏗</div>
-      <div>
-        <div class="section-tag">ABOUT US</div>
-        <h2 class="section-title">선풍건설산업을<br>소개합니다</h2>
-        <p class="section-sub">광주·전남 최고의 철거 해체 전문 기업</p>
-        <div class="about-info">
-          <div class="info-item">
-            <div class="info-icon">🏆</div>
-            <div class="info-text">
-              <h4>20년 이상의 전문 경력</h4>
-              <p>2004년 창업 이래 광주·전남 지역 1,200건 이상의 다양한 철거·해체 공사를 성공적으로 완료한 지역 1위 전문 기업입니다.</p>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon">🛡</div>
-            <div class="info-text">
-              <h4>안전 최우선 시공</h4>
-              <p>모든 현장에 안전관리자를 배치하고, ISO 인증 안전 시스템을 적용하여 무재해 시공을 실현합니다.</p>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon">📋</div>
-            <div class="info-text">
-              <h4>원스톱 행정 서비스</h4>
-              <p>해체허가 신청부터 관할 구청 제출까지 AI 자동화 시스템으로 신속하게 처리합니다.</p>
-            </div>
-          </div>
-          <div style="margin-top:8px">
-            <a href="about.html" style="display:inline-block; background:var(--navy); color:#fff; padding:12px 28px; border-radius:10px; font-weight:700; font-size:14px; transition:.2s;" onmouseover="this.style.background='var(--green)'" onmouseout="this.style.background='var(--navy)'">회사 자세히 보기 →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 서비스 섹션 -->
-<section id="services-full">
-  <div class="section-inner">
-    <div class="text-center">
-      <div class="section-tag">SERVICES</div>
-      <h2 class="section-title">전문 서비스</h2>
-      <p class="section-sub">건물 해체부터 폐기물 처리까지 원스톱으로 제공합니다</p>
-    </div>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="icon">🏚</div>
-        <h3>상가 · 사무실 내부 철거</h3>
-        <p>점포 리모델링, 사무실 인테리어 해체를 신속하고 꼼꼼하게 진행합니다. 영업 공백을 최소화합니다.</p>
-      </div>
-      <div class="service-card">
-        <div class="icon">🏢</div>
-        <h3>건축물 해체 공사</h3>
-        <p>주택, 상가, 공장 등 각종 건축물의 안전한 해체·철거. 허가제/신고제 행정절차 일괄 대행.</p>
-      </div>
-      <div class="service-card">
-        <div class="icon">⚙️</div>
-        <h3>콘크리트 정밀 커팅</h3>
-        <p>다이아몬드 와이어 쏘 방식의 무진동·무소음 정밀 커팅. 구조물 손상 없는 고정밀 절단.</p>
-      </div>
-      <div class="service-card">
-        <div class="icon">🏗</div>
-        <h3>가설구조물 설치</h3>
-        <p>안전한 해체를 위한 가설울타리, 흙막이, 방진망 설치 및 철거 전 준비 작업 일체.</p>
-      </div>
-      <div class="service-card">
-        <div class="icon">♻️</div>
-        <h3>건설 폐기물 처리</h3>
-        <p>폐콘크리트, 폐목재, 폐금속류 분리수거 및 합법적 처리. 환경부 허가 업체와 연계.</p>
-      </div>
-      <div class="service-card">
-        <div class="icon">📋</div>
-        <h3>해체계획서 행정 대행</h3>
-        <p>AI 자동화 시스템을 활용한 해체계획서 작성부터 광주 5개 구청 제출까지 원스톱 서비스.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 프로젝트 섹션 -->
-<section id="projects-preview" style="background:var(--light)">
-  <div class="section-inner">
-    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
-      <div>
-        <div class="section-tag">PROJECTS</div>
-        <h2 class="section-title" style="margin-bottom:0">시공 사례</h2>
-      </div>
-      <a href="projects.html" style="color:var(--navy); font-weight:700; font-size:14px;">전체 보기 →</a>
-    </div>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-img">🏢</div>
-        <div class="project-body">
-          <span class="project-cat">RC 해체</span>
-          <h3>광주 서구 주상복합 해체공사</h3>
-          <p>연면적 1,200㎡ · 5층 · 철근콘크리트</p>
-        </div>
-      </div>
-      <div class="project-card">
-        <div class="project-img">🏭</div>
-        <div class="project-body">
-          <span class="project-cat">공장 철거</span>
-          <h3>광산구 식품공장 해체공사</h3>
-          <p>연면적 3,500㎡ · 단층 · 철골구조</p>
-        </div>
-      </div>
-      <div class="project-card">
-        <div class="project-img">✂️</div>
-        <div class="project-body">
-          <span class="project-cat">정밀 커팅</span>
-          <h3>북구 아파트 증축 코어 커팅</h3>
-          <p>콘크리트 벽체 · 와이어쏘 무진동</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section id="cta">
-  <div class="section-inner">
-    <h2>해체계획서가 필요하신가요?</h2>
-    <p>AI 자동화 시스템으로 광주광역시 5개 구청 제출용 해체계획서를<br>빠르고 정확하게 작성하세요</p>
-    <div class="cta-btns">
-      <a href="contact.html" class="btn-white">📞 견적 문의</a>
-      <a href="demolition.html" class="btn-green">📋 해체계획서 작성 →</a>
-    </div>
-  </div>
-</section>
-
 <!-- 푸터 -->
 <footer id="footer">
   <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <div class="footer-logo-icon">SP</div>
-          <div class="footer-logo-text">
-            <div class="en">DEMOLITION</div>
-            <div class="kr">선풍건설산업</div>
-          </div>
-        </div>
-        <p class="footer-desc">광주·전남 철거·해체·정밀커팅·폐기물처리 전문 기업.<br>20년 이상의 경험으로 안전하고 신속한 서비스를 제공합니다.</p>
-      </div>
-      <div class="footer-col">
-        <h4>바로가기</h4>
-        <a href="about.html">회사소개</a>
-        <a href="services.html">서비스</a>
-        <a href="projects.html">프로젝트</a>
-        <a href="board.html">공지/게시판</a>
-        <a href="demolition.html">해체계획서 작성</a>
-        <a href="contact.html">문의하기</a>
-      </div>
-      <div class="footer-col">
-        <h4>연락처</h4>
-        <li>📞 015-125-9770</li>
-        <li>✉️ contact@sunpoong.co.kr</li>
-        <li>📍 광주광역시 ○○구 ○○로 1205</li>
-        <li>🕐 평일 08:00 ~ 18:00</li>
-      </div>
+    <div class="footer-left">
+      Address: 광주광역시 ○○구 ○○로 1205&nbsp;&nbsp;&nbsp;P: 015-125-9770&nbsp;&nbsp;&nbsp;Email: contact@sunpoong.co.kr
     </div>
-    <div class="footer-bottom">
-      <div>© 2025 선풍건설산업 (SP DEMOLITION). All rights reserved.</div>
-      <div class="social-links">
-        <a href="#" title="카카오톡">💬</a>
-        <a href="#" title="인스타그램">📷</a>
-        <a href="#" title="유튜브">▶️</a>
-        <a href="admin/index.html" title="관리자" style="font-size:14px; opacity:.5">⚙</a>
+    <a href="index.html" class="footer-logo">
+      <div class="footer-logo-icon">
+        <span class="fl-s">S</span><span class="fl-p">p</span>
       </div>
+      <div class="footer-logo-text">
+        <div class="en">DEMOLITION</div>
+        <div class="kr">선풍건설산업</div>
+      </div>
+    </a>
+    <div class="footer-right">
+      <div class="social-links">
+        <a href="#" title="페이스북" aria-label="페이스북">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" title="트위터" aria-label="트위터">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+        </a>
+        <a href="#" title="인스타그램" aria-label="인스타그램">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" title="유튜브" aria-label="유튜브">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#1a2f5e"/></svg>
+        </a>
+      </div>
+      <span class="copyright">© Copyright 2025. All rights reserved.</span>
     </div>
   </div>
 </footer>
 
 <script src="js/config.js"></script>
 <script src="js/app.js"></script>
+<script>
+  // 햄버거 메뉴
+  document.querySelector('.hamburger').addEventListener('click', function() {
+    document.getElementById('nav').classList.toggle('open');
+    this.classList.toggle('open');
+  });
+</script>
 </body>
 </html>
