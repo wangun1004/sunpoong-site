@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <!-- 배경 실내 -->
+  <rect width="400" height="300" fill="#d4c4b0"/>
+  <!-- 바닥 -->
+  <rect x="0" y="240" width="400" height="60" fill="#8b7355"/>
+  <!-- 뒷벽 -->
+  <rect x="0" y="0" width="400" height="245" fill="#e8dcc8"/>
+  <!-- 석고보드 벽 (일부 뜯긴 상태) -->
+  <rect x="40" y="30" width="320" height="210" fill="#f5f0e8" rx="2"/>
+  <!-- 뜯긴 석고보드 조각들 -->
+  <polygon points="180,80 260,70 280,130 200,140" fill="#c8bba8" opacity="0.8"/>
+  <polygon points="200,140 280,130 290,170 210,175" fill="#b8a898" opacity="0.9"/>
+  <!-- 뜯긴 부분 (벽 내부 노출) -->
+  <rect x="185" y="75" width="105" height="110" fill="#a09080" rx="1"/>
+  <line x1="200" y1="75" x2="200" y2="185" stroke="#8a7060" stroke-width="2"/>
+  <line x1="225" y1="75" x2="225" y2="185" stroke="#8a7060" stroke-width="2"/>
+  <line x1="250" y1="75" x2="250" y2="185" stroke="#8a7060" stroke-width="2"/>
+  <line x1="275" y1="75" x2="275" y2="185" stroke="#8a7060" stroke-width="2"/>
+  <line x1="185" y1="95" x2="290" y2="95" stroke="#8a7060" stroke-width="1.5"/>
+  <line x1="185" y1="115" x2="290" y2="115" stroke="#8a7060" stroke-width="1.5"/>
+  <line x1="185" y1="135" x2="290" y2="135" stroke="#8a7060" stroke-width="1.5"/>
+  <line x1="185" y1="155" x2="290" y2="155" stroke="#8a7060" stroke-width="1.5"/>
+
+  <!-- 석고 조각들 바닥에 -->
+  <ellipse cx="210" cy="245" rx="30" ry="8" fill="#d0c8b8" opacity="0.7"/>
+  <polygon points="195,242 225,238 230,248 190,250" fill="#c8bfaf"/>
+  <polygon points="240,240 270,238 268,248 238,250" fill="#c8bfaf"/>
+  <polygon points="160,243 185,240 183,248 158,250" fill="#d0c8b8"/>
+  <!-- 먼지 효과 -->
+  <circle cx="250" cy="160" r="15" fill="white" opacity="0.3"/>
+  <circle cx="235" cy="145" r="10" fill="white" opacity="0.25"/>
+  <circle cx="265" cy="175" r="8" fill="white" opacity="0.2"/>
+
+  <!-- 철거공 (오른쪽에서 당기는 자세) -->
+  <!-- 다리 -->
+  <line x1="310" y1="200" x2="295" y2="242" stroke="#1a1a2e" stroke-width="10" stroke-linecap="round"/>
+  <line x1="310" y1="200" x2="330" y2="238" stroke="#1a1a2e" stroke-width="10" stroke-linecap="round"/>
+  <!-- 신발 -->
+  <ellipse cx="291" cy="244" rx="12" ry="5" fill="#2c2c2c"/>
+  <ellipse cx="333" cy="240" rx="12" ry="5" fill="#2c2c2c"/>
+  <!-- 몸통 (오렌지 조끼) -->
+  <rect x="295" y="158" width="32" height="44" rx="8" fill="#e85d04"/>
+  <rect x="299" y="162" width="24" height="36" rx="6" fill="#f48c06"/>
+  <!-- 왼팔 (벽쪽으로 뻗은) -->
+  <line x1="298" y1="168" x2="258" y2="148" stroke="#8B4513" stroke-width="9" stroke-linecap="round"/>
+  <line x1="258" y1="148" x2="238" y2="138" stroke="#8B4513" stroke-width="8" stroke-linecap="round"/>
+  <!-- 오른팔 -->
+  <line x1="326" y1="168" x2="350" y2="155" stroke="#8B4513" stroke-width="9" stroke-linecap="round"/>
+  <line x1="350" y1="155" x2="360" y2="145" stroke="#8B4513" stroke-width="8" stroke-linecap="round"/>
+  <!-- 손 -->
+  <circle cx="236" cy="136" r="7" fill="#8B4513"/>
+  <circle cx="362" cy="143" r="7" fill="#8B4513"/>
+  <!-- 목 -->
+  <line x1="311" y1="158" x2="311" y2="148" stroke="#8B4513" stroke-width="8" stroke-linecap="round"/>
+  <!-- 머리 -->
+  <circle cx="311" cy="138" r="16" fill="#f5c518"/>
+  <!-- 안전모 -->
+  <ellipse cx="311" cy="130" rx="18" ry="10" fill="#f5c518"/>
+  <rect x="295" y="126" width="32" height="10" rx="3" fill="#e6b800"/>
+  <rect x="293" y="132" width="36" height="5" rx="2" fill="#d4a800"/>
+  <!-- 얼굴 -->
+  <circle cx="306" cy="140" r="2.5" fill="#333"/>
+  <circle cx="316" cy="140" r="2.5" fill="#333"/>
+  <path d="M305,147 Q311,151 317,147" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <!-- 석고보드 조각 손에 잡힌 것 -->
+  <polygon points="236,130 215,120 212,140 233,143" fill="#e8e0d0" stroke="#c0b8a8" stroke-width="1.5"/>
+
+  <!-- 장갑 표현 -->
+  <circle cx="236" cy="136" r="7" fill="#4a4a6a" opacity="0.8"/>
+  <circle cx="362" cy="143" r="7" fill="#4a4a6a" opacity="0.8"/>
+
+  <!-- 작업 텍스트 배너 -->
+  <rect x="0" y="260" width="400" height="40" fill="rgba(28,92,48,0.85)"/>
+  <text x="200" y="285" font-family="'Noto Sans KR', sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">석고보드 인력 철거 작업</text>
+</svg>
