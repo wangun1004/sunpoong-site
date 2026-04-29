@@ -436,6 +436,7 @@ section { padding: 80px 24px; }
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
+  min-height: 220px;
   box-shadow: 0 2px 16px rgba(0,0,0,.08);
   transition: transform .25s, box-shadow .25s;
 }
@@ -446,8 +447,8 @@ section { padding: 80px 24px; }
 
 /* 이미지 영역 */
 .ws-card-img {
-  flex: 0 0 340px;
-  width: 340px;
+  flex: 0 0 42%;
+  min-width: 0;
   position: relative;
   border-right: 5px solid var(--forest);
   overflow: hidden;
@@ -475,29 +476,31 @@ section { padding: 80px 24px; }
 /* 텍스트 영역 */
 .ws-card-body {
   flex: 1;
-  padding: 36px 36px 32px;
+  min-width: 0;
+  padding: 28px 28px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
 }
 .ws-card-body h3 {
-  font-size: 24px; font-weight: 900; color: #111;
+  font-size: 22px; font-weight: 900; color: #111;
   line-height: 1.25; letter-spacing: -0.3px;
 }
 .ws-card-body p {
-  font-size: 15px; color: #4a5568; line-height: 1.75;
+  font-size: 14px; color: #4a5568; line-height: 1.7;
 }
 .ws-btn {
   display: inline-block;
-  margin-top: 8px;
-  padding: 10px 22px;
+  margin-top: 6px;
+  padding: 9px 20px;
   border: 2px solid var(--forest);
   border-radius: 6px;
   color: var(--forest);
   font-size: 14px; font-weight: 700;
   transition: background .2s, color .2s;
   align-self: flex-start;
+  white-space: nowrap;
 }
 .ws-btn:hover {
   background: var(--forest);
@@ -506,7 +509,8 @@ section { padding: 80px 24px; }
 
 /* 태블릿 */
 @media (max-width: 1100px) {
-  .ws-card-img { flex: 0 0 260px; width: 260px; }
-  .ws-card-body { padding: 28px 24px; }
-  .ws-card-body h3 { font-size: 20px; }
+  .ws-card-img { flex: 0 0 40%; }
+  .ws-card-body { padding: 22px 20px; }
+  .ws-card-body h3 { font-size: 18px; }
+  .ws-card-body p { font-size: 13px; }
 }
