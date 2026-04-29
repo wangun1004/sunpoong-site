@@ -1,0 +1,2 @@
+-keep class com.bige.calculator.** { *; }
+-keepattributes *Annotation*

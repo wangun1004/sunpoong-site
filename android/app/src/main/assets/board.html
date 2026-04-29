@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지/게시판 – 선풍건설산업</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero { background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; padding: 60px 24px; text-align: center; }
+    .page-hero h1 { font-size: 36px; font-weight: 900; }
+    .cat-tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 2px solid var(--border); }
+    .cat-tab { padding: 10px 20px; font-size: 14px; font-weight: 600; color: var(--gray); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: .2s; background: none; border-top: none; border-left: none; border-right: none; font-family: inherit; }
+    .cat-tab.active { color: var(--navy); border-bottom-color: var(--navy); }
+    .cat-tab:hover { color: var(--navy); }
+    .board-wrap { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    .board-search { display: flex; gap: 8px; margin-bottom: 16px; }
+    .board-search input { flex: 1; border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 14px; font-family: inherit; }
+    .board-search input:focus { outline: none; border-color: var(--green); }
+    .board-search button { background: var(--navy); color: #fff; border: none; border-radius: 10px; padding: 10px 20px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    .empty-state { text-align: center; padding: 60px; color: var(--gray); }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  </style>
+</head>
+<body>
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><span class="logo-s">S</span><span class="logo-p">p</span></div>
+      <div class="logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div>
+    </a>
+    <nav>
+      <a href="index.html">HOME 홈</a>
+      <a href="about.html">ABOUT US 회사소개</a>
+      <a href="services.html">SERVICES 서비스</a>
+      <a href="projects.html">PROJECTS 프로젝트</a>
+      <a href="board.html" class="active">공지/게시판</a>
+      <a href="demolition.html">해체계획서 작성</a>
+      <a href="contact.html">CONTACT 문의하기</a>
+    </nav>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <h1>공지 / 게시판</h1>
+  <p>선풍건설산업의 공지사항과 소식을 확인하세요</p>
+</div>
+
+<section>
+  <div class="section-inner" style="max-width:900px">
+    <div class="cat-tabs">
+      <button class="cat-tab active" data-cat="all">전체</button>
+      <button class="cat-tab" data-cat="notice">공지사항</button>
+      <button class="cat-tab" data-cat="project">시공사례</button>
+      <button class="cat-tab" data-cat="news">뉴스</button>
+      <button class="cat-tab" data-cat="qna">Q&amp;A</button>
+    </div>
+
+    <div class="board-search">
+      <input type="text" id="searchInput" placeholder="제목 검색..." />
+      <button onclick="loadPosts(1)">검색</button>
+    </div>
+
+    <div class="board-wrap">
+      <table class="board-table">
+        <thead>
+          <tr>
+            <th style="width:60px">번호</th>
+            <th>제목</th>
+            <th style="width:80px">분류</th>
+            <th style="width:100px">작성일</th>
+            <th style="width:60px">조회</th>
+          </tr>
+        </thead>
+        <tbody id="boardBody">
+          <tr><td colspan="5" class="empty-state"><div class="icon">📋</div><p>로딩 중...</p></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="board-nav" id="boardNav"></div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      Address: 광주광역시 ○○구 ○○로 1205&nbsp;&nbsp;&nbsp;P: 015-125-9770&nbsp;&nbsp;&nbsp;Email: contact@sunpoong.co.kr
+    </div>
+    <a href="index.html" class="footer-logo">
+      <div class="footer-logo-icon">
+        <span class="fl-s">S</span><span class="fl-p">p</span>
+      </div>
+      <div class="footer-logo-text">
+        <div class="en">DEMOLITION</div>
+        <div class="kr">선풍건설산업</div>
+      </div>
+    </a>
+    <div class="footer-right">
+      <div class="social-links">
+        <a href="#" title="페이스북"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#" title="인스타그램"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="#" title="유튜브"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#1a2f5e"/></svg></a>
+      </div>
+      <span class="copyright">© Copyright 2025. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/db.js"></script>
+<script>
+let currentCat = 'all', currentPage = 1, totalCount = 0;
+const LIMIT = 15;
+
+document.querySelectorAll('.cat-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentCat = tab.dataset.cat;
+    loadPosts(1);
+  });
+});
+
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') loadPosts(1);
+});
+
+function catLabel(cat) {
+  return { notice:'공지', project:'시공사례', news:'뉴스', qna:'Q&A' }[cat] || cat;
+}
+
+async function loadPosts(page) {
+  currentPage = page;
+  const search = document.getElementById('searchInput').value.trim();
+  try {
+    const { data, count } = await getPosts({ category: currentCat, page, limit: LIMIT });
+    totalCount = count;
+    const tbody = document.getElementById('boardBody');
+    if (!data || data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="icon">📋</div><p>게시글이 없습니다</p></div></td></tr>`;
+      document.getElementById('boardNav').innerHTML = '';
+      return;
+    }
+    tbody.innerHTML = data.map((p, i) => `
+      <tr>
+        <td class="text-center board-meta">${p.is_notice ? '<span class="notice-badge">공지</span>' : (count - (page-1)*LIMIT - i)}</td>
+        <td><a href="board-view.html?id=${p.id}" class="title-link">${p.title}</a></td>
+        <td class="text-center board-meta">${catLabel(p.category)}</td>
+        <td class="text-center board-meta">${formatDate(p.created_at)}</td>
+        <td class="text-center board-meta">${p.views || 0}</td>
+      </tr>
+    `).join('');
+    renderNav(count);
+  } catch(e) {
+    console.error(e);
+    document.getElementById('boardBody').innerHTML = `<tr><td colspan="5"><div class="empty-state"><div class="icon">⚠️</div><p>데이터 로드 오류: ${e.message}</p></div></td></tr>`;
+  }
+}
+
+function renderNav(count) {
+  const pages = Math.ceil(count / LIMIT);
+  const nav = document.getElementById('boardNav');
+  if (pages <= 1) { nav.innerHTML = ''; return; }
+  nav.innerHTML = Array.from({ length: pages }, (_, i) => i + 1)
+    .map(n => `<button class="${n === currentPage ? 'active' : ''}" onclick="loadPosts(${n})">${n}</button>`)
+    .join('');
+}
+
+loadPosts(1);
+</script>
+</body>
+</html>

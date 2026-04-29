@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>서비스 – 선풍건설산업</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero { background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; padding: 80px 24px; text-align: center; }
+    .page-hero h1 { font-size: 40px; font-weight: 900; }
+    .page-hero p { font-size: 16px; color: #cbd5e1; margin-top: 12px; }
+    .svc-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 80px; }
+    .svc-detail.reverse { direction: rtl; }
+    .svc-detail.reverse > * { direction: ltr; }
+    .svc-img { height: 320px; border-radius: 20px; background: linear-gradient(135deg, var(--navy), var(--navy2)); display: flex; align-items: center; justify-content: center; font-size: 80px; }
+    .svc-detail h3 { font-size: 26px; font-weight: 900; color: var(--navy); margin-bottom: 12px; }
+    .svc-detail p { font-size: 15px; color: var(--gray); line-height: 1.9; margin-bottom: 20px; }
+    .svc-points { display: flex; flex-direction: column; gap: 10px; }
+    .svc-point { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; }
+    .svc-point::before { content: '✓'; color: var(--green); font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+    .process-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; position: relative; }
+    .process-steps::before { content: ''; position: absolute; top: 32px; left: 10%; right: 10%; height: 2px; background: var(--border); z-index: 0; }
+    .process-step { text-align: center; position: relative; z-index: 1; }
+    .step-num { width: 64px; height: 64px; border-radius: 50%; background: var(--navy); color: #fff; font-size: 22px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+    .step-label { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .step-desc { font-size: 12px; color: var(--gray); }
+    @media(max-width:768px) {
+      .svc-detail { grid-template-columns: 1fr; }
+      .svc-detail.reverse { direction: ltr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .process-steps::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><span class="logo-s">S</span><span class="logo-p">p</span></div>
+      <div class="logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div>
+    </a>
+    <nav>
+      <a href="index.html">HOME 홈</a>
+      <a href="about.html">ABOUT US 회사소개</a>
+      <a href="services.html" class="active">SERVICES 서비스</a>
+      <a href="projects.html">PROJECTS 프로젝트</a>
+      <a href="board.html">공지/게시판</a>
+      <a href="demolition.html">해체계획서 작성</a>
+      <a href="contact.html">CONTACT 문의하기</a>
+    </nav>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <h1>서비스</h1>
+  <p>철거·해체·정밀커팅·폐기물처리까지 원스톱으로 제공합니다</p>
+</div>
+
+<section>
+  <div class="section-inner">
+
+    <div class="svc-detail">
+      <div class="svc-img">🏚</div>
+      <div>
+        <div class="section-tag">SERVICE 01</div>
+        <h3>상가·사무실 내부 철거</h3>
+        <p>점포 리모델링, 사무실 이전·폐업 시 내부 인테리어 전체 해체 서비스입니다. 영업 공백을 최소화하는 신속한 작업과 꼼꼼한 마감 처리로 다음 공정이 바로 진행될 수 있도록 합니다.</p>
+        <div class="svc-points">
+          <div class="svc-point">마감재(타일·도배·몰딩) 제거 및 폐기물 반출</div>
+          <div class="svc-point">전기·배관·냉난방 설비 해체</div>
+          <div class="svc-point">파티션·천장·바닥 전체 철거</div>
+          <div class="svc-point">작업 후 청소 서비스 포함</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-detail reverse">
+      <div class="svc-img">🏢</div>
+      <div>
+        <div class="section-tag">SERVICE 02</div>
+        <h3>건축물 해체 공사</h3>
+        <p>주택·상가·공장·창고 등 각종 건축물의 안전한 해체·철거를 담당합니다. 건축물 규모에 따른 허가제/신고제 판별부터 AI 해체계획서 작성, 광주 5개 구청 제출 행정 대행까지 원스톱 서비스를 제공합니다.</p>
+        <div class="svc-points">
+          <div class="svc-point">기계식·인력·혼합 해체 공법 선택 가능</div>
+          <div class="svc-point">석면 해체·제거 작업 병행 가능</div>
+          <div class="svc-point">인접 구조물 보호 대책 수립</div>
+          <div class="svc-point">해체계획서 행정 대행 (AI 자동화)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-detail">
+      <div class="svc-img">⚙️</div>
+      <div>
+        <div class="section-tag">SERVICE 03</div>
+        <h3>콘크리트 정밀 커팅</h3>
+        <p>다이아몬드 와이어 쏘(Wire Saw), 월 쏘(Wall Saw), 코어 드릴을 활용한 정밀 절단 서비스입니다. 진동과 소음을 최소화하여 기존 구조물을 보호하면서 정확한 절단이 가능합니다.</p>
+        <div class="svc-points">
+          <div class="svc-point">무진동·무소음 다이아몬드 와이어 쏘 커팅</div>
+          <div class="svc-point">콘크리트 벽·슬래브·보 정밀 절단</div>
+          <div class="svc-point">증축·개구부 확장을 위한 코어 드릴링</div>
+          <div class="svc-point">교량·터널 등 특수구조물 커팅</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-detail reverse">
+      <div class="svc-img">♻️</div>
+      <div>
+        <div class="section-tag">SERVICE 04</div>
+        <h3>건설 폐기물 처리</h3>
+        <p>철거·해체 과정에서 발생하는 건설폐기물을 적법하게 분리수거하고 처리합니다. 환경부 허가 업체와 협력하여 폐콘크리트·폐목재·폐금속 등 종류별 최적 처리 방법으로 환경 영향을 최소화합니다.</p>
+        <div class="svc-points">
+          <div class="svc-point">종류별 분리수거 및 분류 작업</div>
+          <div class="svc-point">환경부 허가 처리업체 직접 연계</div>
+          <div class="svc-point">폐기물 처리 확인서·영수증 발급</div>
+          <div class="svc-point">석면 등 지정폐기물 전문 처리</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:var(--light)">
+  <div class="section-inner">
+    <div class="text-center" style="margin-bottom:48px">
+      <div class="section-tag">PROCESS</div>
+      <h2 class="section-title">시공 프로세스</h2>
+      <p class="section-sub">견적부터 완료까지 체계적인 절차로 진행합니다</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <div class="step-label">현장 조사</div>
+        <div class="step-desc">무료 방문 견적 및 현장 상황 파악</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <div class="step-label">계획서 작성</div>
+        <div class="step-desc">AI 해체계획서 자동 생성 및 검토</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <div class="step-label">허가 신청</div>
+        <div class="step-desc">관할 구청 허가/신고 행정 대행</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <div class="step-label">안전 준비</div>
+        <div class="step-desc">가설울타리·방진망·안전장비 설치</div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">5</div>
+        <div class="step-label">시공 완료</div>
+        <div class="step-desc">해체·폐기물 반출·부지 정리</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="section-inner">
+    <h2>견적이 필요하신가요?</h2>
+    <p>무료 현장 방문 견적을 제공합니다</p>
+    <div class="cta-btns">
+      <a href="contact.html" class="btn-white">📞 견적 문의하기</a>
+      <a href="demolition.html" class="btn-green">📋 해체계획서 작성</a>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      Address: 광주광역시 ○○구 ○○로 1205&nbsp;&nbsp;&nbsp;P: 015-125-9770&nbsp;&nbsp;&nbsp;Email: contact@sunpoong.co.kr
+    </div>
+    <a href="index.html" class="footer-logo">
+      <div class="footer-logo-icon">
+        <span class="fl-s">S</span><span class="fl-p">p</span>
+      </div>
+      <div class="footer-logo-text">
+        <div class="en">DEMOLITION</div>
+        <div class="kr">선풍건설산업</div>
+      </div>
+    </a>
+    <div class="footer-right">
+      <div class="social-links">
+        <a href="#" title="페이스북"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#" title="인스타그램"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="#" title="유튜브"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#1a2f5e"/></svg></a>
+      </div>
+      <span class="copyright">© Copyright 2025. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+<script src="js/config.js"></script><script src="js/app.js"></script>
+</body>
+</html>

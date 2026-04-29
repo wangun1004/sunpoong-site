@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회사소개 – 선풍건설산업</title>
+
+
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero { background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; padding: 80px 24px; text-align: center; }
+    .page-hero h1 { font-size: 40px; font-weight: 900; }
+    .page-hero p { font-size: 16px; color: #cbd5e1; margin-top: 12px; }
+    .history-timeline { position: relative; padding-left: 32px; }
+    .history-timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+    .history-item { position: relative; margin-bottom: 32px; }
+    .history-item::before { content: ''; position: absolute; left: -28px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--green); }
+    .history-year { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+    .history-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-top: 32px; }
+    .cert-card { border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; }
+    .cert-card .icon { font-size: 40px; margin-bottom: 12px; }
+    .cert-card h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .cert-card p { font-size: 12px; color: var(--gray); }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+    .team-card { text-align: center; }
+    .team-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--navy); margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+    .team-card h4 { font-size: 15px; font-weight: 700; color: var(--navy); }
+    .team-card p { font-size: 13px; color: var(--gray); }
+  </style>
+</head>
+<body>
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><span class="logo-s">S</span><span class="logo-p">p</span></div>
+      <div class="logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div>
+    </a>
+    <nav>
+      <a href="index.html">HOME 홈</a>
+      <a href="about.html" class="active">ABOUT US 회사소개</a>
+      <a href="services.html">SERVICES 서비스</a>
+      <a href="projects.html">PROJECTS 프로젝트</a>
+      <a href="board.html">공지/게시판</a>
+      <a href="demolition.html">해체계획서 작성</a>
+      <a href="contact.html">CONTACT 문의하기</a>
+    </nav>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <h1>회사소개</h1>
+  <p>안전과 신뢰로 20년을 함께해온 선풍건설산업입니다</p>
+</div>
+
+<section>
+  <div class="section-inner">
+    <div class="about-grid">
+      <div>
+        <div class="section-tag">ABOUT US</div>
+        <h2 class="section-title">선풍건설산업</h2>
+        <p style="font-size:15px; color:var(--gray); line-height:1.9; margin-bottom:24px;">
+          선풍건설산업은 2004년 창업 이래 광주·전남 지역 철거·해체·정밀커팅·폐기물처리 분야에서
+          최고의 기술력과 안전성으로 고객의 신뢰를 쌓아왔습니다.<br><br>
+          20년 이상의 풍부한 경험을 바탕으로 1,200건 이상의 다양한 현장에서 검증된 시공 능력을 보유하고 있으며,
+          AI 자동화 해체계획서 시스템을 도입하여 행정 서비스까지 원스톱으로 제공합니다.
+        </p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div style="background:var(--light); border-radius:12px; padding:20px; text-align:center;">
+            <div style="font-size:32px; font-weight:900; color:var(--green);">20년+</div>
+            <div style="font-size:13px; color:var(--gray);">시공 경험</div>
+          </div>
+          <div style="background:var(--light); border-radius:12px; padding:20px; text-align:center;">
+            <div style="font-size:32px; font-weight:900; color:var(--green);">1,200+</div>
+            <div style="font-size:13px; color:var(--gray);">완료 현장</div>
+          </div>
+          <div style="background:var(--light); border-radius:12px; padding:20px; text-align:center;">
+            <div style="font-size:32px; font-weight:900; color:var(--green);">0건</div>
+            <div style="font-size:13px; color:var(--gray);">안전사고</div>
+          </div>
+          <div style="background:var(--light); border-radius:12px; padding:20px; text-align:center;">
+            <div style="font-size:32px; font-weight:900; color:var(--green);">98%</div>
+            <div style="font-size:13px; color:var(--gray);">고객 재의뢰율</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-img" style="height:420px; font-size:100px; flex-direction:column; gap:8px; color:var(--green);">
+        🏗
+        <div style="font-size:20px; color:#fff; font-weight:700;">선풍건설산업</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--light)">
+  <div class="section-inner">
+    <div class="section-tag">HISTORY</div>
+    <h2 class="section-title">연혁</h2>
+    <div class="history-timeline">
+      <div class="history-item">
+        <div class="history-year">2025</div>
+        <div class="history-desc">AI 해체계획서 자동화 시스템 도입 · 디지털 전환 완료</div>
+      </div>
+      <div class="history-item">
+        <div class="history-year">2022</div>
+        <div class="history-desc">건설폐기물 처리업 허가 취득 · 연간 처리량 5,000톤 달성</div>
+      </div>
+      <div class="history-item">
+        <div class="history-year">2019</div>
+        <div class="history-desc">정밀 다이아몬드 커팅 장비 도입 · 무진동 시공 서비스 시작</div>
+      </div>
+      <div class="history-item">
+        <div class="history-year">2015</div>
+        <div class="history-desc">ISO 9001 품질경영시스템 인증 취득 · 안전보건경영시스템 구축</div>
+      </div>
+      <div class="history-item">
+        <div class="history-year">2010</div>
+        <div class="history-desc">철거 및 건물해체 공사업 등록 · 현장 500건 돌파</div>
+      </div>
+      <div class="history-item">
+        <div class="history-year">2004</div>
+        <div class="history-desc">선풍건설산업 창업 · 광주광역시 소규모 철거 사업 시작</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <div class="section-tag">CERTIFICATIONS</div>
+    <h2 class="section-title">인증 및 등록</h2>
+    <div class="cert-grid">
+      <div class="cert-card"><div class="icon">📜</div><h4>건설업 등록</h4><p>철거 및 건물해체 공사업</p></div>
+      <div class="cert-card"><div class="icon">🏅</div><h4>ISO 9001</h4><p>품질경영시스템 인증</p></div>
+      <div class="cert-card"><div class="icon">🛡</div><h4>안전보건관리</h4><p>산업안전보건법 준수</p></div>
+      <div class="cert-card"><div class="icon">♻️</div><h4>폐기물처리업</h4><p>환경부 허가 취득</p></div>
+      <div class="cert-card"><div class="icon">⚙️</div><h4>정밀측정장비</h4><p>소음·진동 측정 장비 보유</p></div>
+      <div class="cert-card"><div class="icon">🤖</div><h4>AI 계획서</h4><p>해체계획서 자동화 시스템</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="section-inner">
+    <h2>함께 일하고 싶으신가요?</h2>
+    <p>지금 바로 견적 문의를 남겨주세요</p>
+    <div class="cta-btns">
+      <a href="contact.html" class="btn-white">📞 견적 문의</a>
+      <a href="demolition.html" class="btn-green">📋 해체계획서 작성</a>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      Address: 광주광역시 ○○구 ○○로 1205&nbsp;&nbsp;&nbsp;P: 015-125-9770&nbsp;&nbsp;&nbsp;Email: contact@sunpoong.co.kr
+    </div>
+    <a href="index.html" class="footer-logo">
+      <div class="footer-logo-icon">
+        <span class="fl-s">S</span><span class="fl-p">p</span>
+      </div>
+      <div class="footer-logo-text">
+        <div class="en">DEMOLITION</div>
+        <div class="kr">선풍건설산업</div>
+      </div>
+    </a>
+    <div class="footer-right">
+      <div class="social-links">
+        <a href="#" title="페이스북"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        <a href="#" title="인스타그램"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="#" title="유튜브"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#1a2f5e"/></svg></a>
+      </div>
+      <span class="copyright">© Copyright 2025. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+<script src="js/config.js"></script><script src="js/app.js"></script>
+</body>
+</html>
