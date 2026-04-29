@@ -18,12 +18,18 @@ ul { list-style: none; }
   --shadow: 0 4px 24px rgba(0,0,0,.10);
 }
 
-/* ===== 홈 페이지 한 화면 레이아웃 ===== */
+/* ===== 홈 페이지 레이아웃 ===== */
 body.home-page {
-  height: 100vh;
+  min-height: 100vh;
+  display: block;
+  overflow-x: hidden;
+}
+
+/* 첫 화면: 헤더 아래 100vh 채우기 */
+.first-screen {
+  height: calc(100vh - 68px);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 /* ===== 헤더 ===== */
@@ -390,4 +396,117 @@ section { padding: 80px 24px; }
   .projects-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
+  .first-screen { height: auto; }
+  .ws-grid { grid-template-columns: 1fr; }
+  .ws-card { flex-direction: column; }
+  .ws-card-img { width: 100%; height: 220px; flex: none; border-right: none; border-bottom: 5px solid #1c5c30; }
+}
+
+/* ===== 서비스 상세 카드 섹션 ===== */
+:root { --forest: #1c5c30; --forest2: #164a25; }
+
+#work-services {
+  background: #f5f7f5;
+  padding: 72px 24px 80px;
+}
+.ws-inner { max-width: 1280px; margin: 0 auto; }
+
+.ws-header { text-align: center; margin-bottom: 48px; }
+.ws-tag {
+  display: inline-block; background: var(--forest); color: #fff;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; margin-bottom: 14px;
+}
+.ws-title {
+  font-size: 34px; font-weight: 900; color: #111;
+  margin-bottom: 10px; letter-spacing: -0.5px;
+}
+.ws-sub { font-size: 15px; color: #64748b; }
+
+/* 2×2 그리드 */
+.ws-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* 개별 카드 */
+.ws-card {
+  display: flex;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,.08);
+  transition: transform .25s, box-shadow .25s;
+}
+.ws-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,.14);
+}
+
+/* 이미지 영역 */
+.ws-card-img {
+  flex: 0 0 340px;
+  width: 340px;
+  position: relative;
+  border-right: 5px solid var(--forest);
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+/* 실제 이미지 (있을 때) */
+.ws-photo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+}
+/* 각 카드 이미지 없을 때 그라디언트 플레이스홀더 */
+.ws-img-1 { background: linear-gradient(145deg,#1c4a28 0%,#2d7040 60%,#3a8a4e 100%); }
+.ws-img-1::after { content: '🔨'; font-size: 72px; }
+.ws-img-2 { background: linear-gradient(145deg,#1a3a4a 0%,#254f6a 60%,#2e6380 100%); }
+.ws-img-2::after { content: '🏗'; font-size: 72px; }
+.ws-img-3 { background: linear-gradient(145deg,#2a3a1a 0%,#3d5428 60%,#4e6a33 100%); }
+.ws-img-3::after { content: '🚛'; font-size: 72px; }
+.ws-img-4 { background: linear-gradient(145deg,#2a2a3a 0%,#3a3a55 60%,#4a4a6a 100%); }
+.ws-img-4::after { content: '⚙️'; font-size: 72px; }
+/* 실제 이미지가 있으면 pseudo 숨김 */
+.ws-card-img:has(.ws-photo[style=""])::after { display: none; }
+
+/* 텍스트 영역 */
+.ws-card-body {
+  flex: 1;
+  padding: 36px 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+.ws-card-body h3 {
+  font-size: 24px; font-weight: 900; color: #111;
+  line-height: 1.25; letter-spacing: -0.3px;
+}
+.ws-card-body p {
+  font-size: 15px; color: #4a5568; line-height: 1.75;
+}
+.ws-btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 10px 22px;
+  border: 2px solid var(--forest);
+  border-radius: 6px;
+  color: var(--forest);
+  font-size: 14px; font-weight: 700;
+  transition: background .2s, color .2s;
+  align-self: flex-start;
+}
+.ws-btn:hover {
+  background: var(--forest);
+  color: #fff;
+}
+
+/* 태블릿 */
+@media (max-width: 1100px) {
+  .ws-card-img { flex: 0 0 260px; width: 260px; }
+  .ws-card-body { padding: 28px 24px; }
+  .ws-card-body h3 { font-size: 20px; }
 }
