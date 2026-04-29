@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 로그인 – 선풍건설산업</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #0f1e14;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* 배경 패턴 */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        linear-gradient(135deg, #0f1e14 0%, #1c3a22 50%, #0f1e14 100%);
+      z-index: 0;
+    }
+
+    .login-wrap {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 420px;
+      padding: 16px;
+    }
+
+    /* 로고 */
+    .login-logo {
+      display: flex; align-items: center; gap: 12px;
+      justify-content: center;
+      margin-bottom: 32px;
+      text-decoration: none;
+    }
+    .login-logo-icon {
+      width: 52px; height: 52px;
+      background: #1c5c30;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 22px; color: #fff;
+      letter-spacing: -1px;
+    }
+    .login-logo-text .en {
+      font-size: 14px; font-weight: 800; color: #fff;
+      letter-spacing: 2px;
+    }
+    .login-logo-text .kr {
+      font-size: 11px; color: #86a98e; margin-top: 1px;
+    }
+
+    /* 카드 */
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px 36px 36px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.4);
+    }
+    .login-card h2 {
+      font-size: 22px; font-weight: 900; color: #111;
+      margin-bottom: 6px;
+    }
+    .login-card .sub {
+      font-size: 13px; color: #64748b; margin-bottom: 28px;
+    }
+
+    /* 입력 필드 */
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: 13px; font-weight: 700; color: #374151;
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      color: #111;
+    }
+    .field input:focus {
+      border-color: #1c5c30;
+      box-shadow: 0 0 0 3px rgba(28,92,48,.1);
+    }
+    .field input::placeholder { color: #b0bec5; }
+
+    /* 에러 메시지 */
+    .error-msg {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px; color: #dc2626;
+      margin-bottom: 18px;
+    }
+    .error-msg.show { display: block; }
+
+    /* 버튼 */
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1c5c30;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px; font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .login-btn:hover { background: #164a25; }
+    .login-btn:active { transform: scale(.98); }
+
+    /* 하단 링크 */
+    .back-link {
+      display: block; text-align: center;
+      margin-top: 24px;
+      font-size: 13px; color: #86a98e;
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    /* 잠금 아이콘 */
+    .lock-icon {
+      width: 48px; height: 48px;
+      background: #f0faf3;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <!-- 로고 -->
+    <a href="index.html" class="login-logo">
+      <div class="login-logo-icon">Sp</div>
+      <div class="login-logo-text">
+        <div class="en">DEMOLITION</div>
+        <div class="kr">선풍건설산업</div>
+      </div>
+    </a>
+
+    <!-- 로그인 카드 -->
+    <div class="login-card">
+      <div class="lock-icon">🔐</div>
+      <h2>관리자 로그인</h2>
+      <p class="sub">해체계획서 작성은 관리자 전용 페이지입니다.</p>
+
+      <div class="error-msg" id="errorMsg">
+        아이디 또는 비밀번호가 올바르지 않습니다.
+      </div>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="field">
+          <label for="username">아이디</label>
+          <input type="text" id="username" placeholder="관리자 아이디 입력" autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="password">비밀번호</label>
+          <input type="password" id="password" placeholder="비밀번호 입력" autocomplete="current-password">
+        </div>
+        <button type="submit" class="login-btn">로그인</button>
+      </form>
+    </div>
+
+    <a href="index.html" class="back-link">← 홈으로 돌아가기</a>
+  </div>
+
+  <script>
+    // 이미 로그인되어 있으면 바로 이동
+    if (sessionStorage.getItem('sp_admin') === 'ok') {
+      location.href = 'demolition.html';
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var id = document.getElementById('username').value.trim();
+      var pw = document.getElementById('password').value;
+
+      // 관리자 계정 (필요 시 변경)
+      var ADMIN_ID = 'admin';
+      var ADMIN_PW = 'sunpoong2025';
+
+      if (id === ADMIN_ID && pw === ADMIN_PW) {
+        sessionStorage.setItem('sp_admin', 'ok');
+        location.href = 'demolition.html';
+      } else {
+        document.getElementById('errorMsg').classList.add('show');
+        document.getElementById('password').value = '';
+        document.getElementById('password').focus();
+      }
+    });
+
+    // 입력 시 에러 메시지 숨김
+    document.querySelectorAll('input').forEach(function(el) {
+      el.addEventListener('input', function() {
+        document.getElementById('errorMsg').classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>
