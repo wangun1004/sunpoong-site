@@ -86,27 +86,42 @@
     </div>
     <div class="svc-card">
       <div class="svc-icon">
-        <!-- 부분 철거 아이콘 -->
+        <!-- 건물 철거 아이콘 -->
         <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- 깨진 바위/건물 -->
-          <polygon points="10,65 28,30 42,50 55,25 70,65" fill="#94a3b8" stroke="#64748b" stroke-width="1.5"/>
-          <polygon points="10,65 28,30 20,65" fill="#64748b"/>
-          <polygon points="42,50 55,25 62,50 55,65" fill="#475569"/>
-          <!-- 균열선 -->
-          <polyline points="28,30 35,42 30,50 38,58" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
-          <!-- 망치 -->
-          <line x1="58" y1="10" x2="40" y2="38" stroke="#1e3a5f" stroke-width="5" stroke-linecap="round"/>
-          <rect x="52" y="4" width="22" height="12" rx="4" fill="#1a2f5e" transform="rotate(-45 63 10)"/>
+          <!-- 건물 (오른쪽, 부분 붕괴) -->
+          <rect x="38" y="18" width="34" height="47" rx="1" fill="#94a3b8" stroke="#64748b" stroke-width="1.5"/>
+          <!-- 창문 -->
+          <rect x="42" y="23" width="8" height="7" rx="1" fill="#bfdbfe" stroke="#93c5fd" stroke-width="0.5"/>
+          <rect x="55" y="23" width="8" height="7" rx="1" fill="#bfdbfe" stroke="#93c5fd" stroke-width="0.5"/>
+          <rect x="42" y="35" width="8" height="7" rx="1" fill="#bfdbfe" stroke="#93c5fd" stroke-width="0.5"/>
+          <rect x="55" y="35" width="8" height="7" rx="1" fill="#bfdbfe" stroke="#93c5fd" stroke-width="0.5"/>
+          <!-- 건물 파손 부분 -->
+          <polygon points="38,42 52,30 55,48 42,58" fill="#cbd5e1" opacity="0.9"/>
+          <polyline points="40,44 46,36 50,44 44,52" stroke="#475569" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- 굴착기 본체 -->
+          <rect x="3" y="54" width="30" height="14" rx="3" fill="#f59e0b" stroke="#d97706" stroke-width="1.5"/>
+          <!-- 굴착기 캐빈 -->
+          <rect x="8" y="44" width="16" height="13" rx="2" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+          <rect x="10" y="46" width="10" height="6" rx="1" fill="#bfdbfe"/>
+          <!-- 굴착기 암(팔) -->
+          <line x1="22" y1="45" x2="38" y2="30" stroke="#374151" stroke-width="4" stroke-linecap="round"/>
+          <line x1="38" y1="30" x2="42" y2="22" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
+          <!-- 버킷 -->
+          <polygon points="39,18 46,18 48,27 37,27" fill="#6b7280" stroke="#374151" stroke-width="1"/>
+          <!-- 무한궤도 -->
+          <rect x="1" y="66" width="34" height="8" rx="4" fill="#1e293b"/>
+          <circle cx="8" cy="70" r="4" fill="#334155"/>
+          <circle cx="28" cy="70" r="4" fill="#334155"/>
           <!-- 파편 -->
-          <circle cx="22" cy="22" r="3" fill="#94a3b8"/>
-          <circle cx="65" cy="35" r="2" fill="#94a3b8"/>
-          <circle cx="15" cy="40" r="2.5" fill="#64748b"/>
+          <circle cx="50" cy="55" r="2.5" fill="#94a3b8"/>
+          <rect x="45" y="62" width="7" height="4" rx="1" fill="#94a3b8" transform="rotate(-15 49 64)"/>
+          <circle cx="60" cy="60" r="2" fill="#64748b"/>
         </svg>
       </div>
-      <div class="svc-title">부분 철거</div>
+      <div class="svc-title">건물 철거</div>
       <ul class="svc-list">
-        <li>안전한 대형 건축물 해체</li>
-        <li>주택 및 상가 부분 철거</li>
+        <li>노후 건축물 안전 해체</li>
+        <li>주택·상가·공장 철거</li>
       </ul>
     </div>
     <div class="svc-card">
@@ -189,11 +204,11 @@
       <!-- 카드 1: 내부 인테리어 철거 -->
       <div class="ws-card">
         <div class="ws-card-img ws-img-1">
-          <img src="images/service-interior.jpg" alt="내부 인테리어 철거" class="ws-photo" onerror="this.style.display='none'">
+          <img src="images/service-interior.jpg" alt="내부 인테리어 철거" class="ws-photo" onerror="this.src='images/ws-card-1.svg'">
         </div>
         <div class="ws-card-body">
           <h3>내부 인테리어 철거</h3>
-          <p>실내 공간의 벽체, 천장, 바닥 등을 정밀하게 철거합니다.<br>(상업 공간, 사무실, 주거 공간)</p>
+          <p>상가·사무실·주거 공간의 벽체, 천장, 바닥을 정밀하게 철거합니다.</p>
           <a href="services.html" class="ws-btn">자세히 보기</a>
         </div>
       </div>
@@ -201,11 +216,11 @@
       <!-- 카드 2: 건물 철거 -->
       <div class="ws-card">
         <div class="ws-card-img ws-img-2">
-          <img src="images/service-building.jpg" alt="건물 철거" class="ws-photo" onerror="this.style.display='none'">
+          <img src="images/service-building.jpg" alt="건물 철거" class="ws-photo" onerror="this.src='images/ws-card-2.svg'">
         </div>
         <div class="ws-card-body">
           <h3>건물 철거</h3>
-          <p>노후된 건축물 및 구조물을 안전하게 해체합니다.<br>(주택, 상가, 공장)</p>
+          <p>노후 건축물·주택·상가·공장을 안전하게 해체합니다.<br>(허가·신고 행정 대행)</p>
           <a href="services.html" class="ws-btn">자세히 보기</a>
         </div>
       </div>
@@ -213,11 +228,11 @@
       <!-- 카드 3: 폐기물 수집 및 운반 -->
       <div class="ws-card">
         <div class="ws-card-img ws-img-3">
-          <img src="images/service-waste.jpg" alt="폐기물 수집 및 운반" class="ws-photo" onerror="this.style.display='none'">
+          <img src="images/service-waste.jpg" alt="폐기물 수집 및 운반" class="ws-photo" onerror="this.src='images/ws-card-3.svg'">
         </div>
         <div class="ws-card-body">
           <h3>폐기물 수집 및 운반</h3>
-          <p>철거 과정에서 발생하는 각종 폐기물을 규정에 맞게 수집 및 운반합니다. (합법적 처리)</p>
+          <p>철거 과정의 각종 폐기물을 규정에 맞게 수집·운반합니다.<br>(합법적 처리)</p>
           <a href="services.html" class="ws-btn">자세히 보기</a>
         </div>
       </div>
@@ -225,11 +240,11 @@
       <!-- 카드 4: 건물 컷팅 -->
       <div class="ws-card">
         <div class="ws-card-img ws-img-4">
-          <img src="images/service-cutting.jpg" alt="건물 컷팅" class="ws-photo" onerror="this.style.display='none'">
+          <img src="images/service-cutting.jpg" alt="건물 컷팅" class="ws-photo" onerror="this.src='images/ws-card-4.svg'">
         </div>
         <div class="ws-card-body">
           <h3>건물 컷팅 (벽체 절단)</h3>
-          <p>콘크리트 및 석재 벽체를 진동 없이 정밀하게 절단합니다.<br>(개구부 조성)</p>
+          <p>콘크리트·석재 벽체를 무진동·무소음으로 정밀 절단합니다.<br>(개구부 조성)</p>
           <a href="services.html" class="ws-btn">자세히 보기</a>
         </div>
       </div>
