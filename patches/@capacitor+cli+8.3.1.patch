@@ -1,0 +1,33 @@
+diff --git a/node_modules/@capacitor/cli/dist/android/build.js b/node_modules/@capacitor/cli/dist/android/build.js
+index 90752e9..d84b80f 100644
+--- a/node_modules/@capacitor/cli/dist/android/build.js
++++ b/node_modules/@capacitor/cli/dist/android/build.js
+@@ -15,7 +15,10 @@ async function buildAndroid(config, buildOptions) {
+     const arg = releaseTypeIsAAB ? `:app:bundle${flavor}Release` : `assemble${flavor}Release`;
+     const gradleArgs = [arg];
+     try {
+-        await (0, common_1.runTask)('Running Gradle build', async () => (0, subprocess_1.runCommand)('./gradlew', gradleArgs, {
++        const gradlewCmd = process.platform === 'win32'
++            ? require('path').join(config.android.platformDirAbs, 'gradlew.bat')
++            : './gradlew';
++        await (0, common_1.runTask)('Running Gradle build', async () => (0, subprocess_1.runCommand)(gradlewCmd, gradleArgs, {
+             cwd: config.android.platformDirAbs,
+         }));
+     }
+diff --git a/node_modules/@capacitor/cli/dist/android/run.js b/node_modules/@capacitor/cli/dist/android/run.js
+index 3f52728..daf5cd2 100644
+--- a/node_modules/@capacitor/cli/dist/android/run.js
++++ b/node_modules/@capacitor/cli/dist/android/run.js
+@@ -16,8 +16,11 @@ async function runAndroid(config, { target: selectedTarget, targetName: selected
+     const arg = `assemble${runFlavor}Debug`;
+     const gradleArgs = [arg];
+     debug('Invoking ./gradlew with args: %O', gradleArgs);
++    const gradlewCmd = process.platform === 'win32'
++        ? require('path').join(config.android.platformDirAbs, 'gradlew.bat')
++        : './gradlew';
+     try {
+-        await (0, common_1.runTask)('Running Gradle build', async () => (0, subprocess_1.runCommand)('./gradlew', gradleArgs, {
++        await (0, common_1.runTask)('Running Gradle build', async () => (0, subprocess_1.runCommand)(gradlewCmd, gradleArgs, {
+             cwd: config.android.platformDirAbs,
+         }));
+     }
