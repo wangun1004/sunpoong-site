@@ -159,6 +159,109 @@ async function isAdminLoggedIn() {
   return !!localStorage.getItem('admin_token')
 }
 
+// ── 시공 프로젝트 ───────────────────────────────────────────
+async function getProjects({ category, page = 1, limit = 20 } = {}) {
+  const sb = getClient()
+  if (sb) {
+    let q = sb.from('projects').select('*', { count: 'exact' })
+      .eq('status', 'published')
+      .order('created_at', { ascending: false })
+      .range((page - 1) * limit, page * limit - 1)
+    if (category && category !== 'all') q = q.eq('category', category)
+    const { data, count, error } = await q
+    if (error) throw error
+    return { data, count }
+  } else {
+    let list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+    if (category && category !== 'all') list = list.filter(r => r.category === category)
+    return { data: list.slice((page - 1) * limit, page * limit), count: list.length }
+  }
+}
+
+async function getAllProjectsAdmin({ page = 1, limit = 20 } = {}) {
+  const sb = getClient()
+  if (sb) {
+    const { data, count, error } = await sb.from('projects')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range((page - 1) * limit, page * limit - 1)
+    if (error) throw error
+    return { data, count }
+  } else {
+    const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+    return { data: list.slice((page - 1) * limit, page * limit), count: list.length }
+  }
+}
+
+async function createProject(data) {
+  const sb = getClient()
+  if (sb) {
+    const { data: row, error } = await sb.from('projects').insert([data]).select().single()
+    if (error) throw error
+    return row
+  } else {
+    const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+    const row = { ...data, id: Date.now(), created_at: new Date().toISOString() }
+    list.unshift(row)
+    localStorage.setItem('projects', JSON.stringify(list))
+    return row
+  }
+}
+
+async function updateProject(id, data) {
+  const sb = getClient()
+  if (sb) {
+    const { error } = await sb.from('projects').update({ ...data, updated_at: new Date().toISOString() }).eq('id', id)
+    if (error) throw error
+  } else {
+    const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+    const i = list.findIndex(r => r.id == id)
+    if (i >= 0) { list[i] = { ...list[i], ...data }; localStorage.setItem('projects', JSON.stringify(list)) }
+  }
+}
+
+async function deleteProject(id) {
+  const sb = getClient()
+  if (sb) {
+    const { error } = await sb.from('projects').delete().eq('id', id)
+    if (error) throw error
+  } else {
+    let list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+    list = list.filter(r => r.id != id)
+    localStorage.setItem('projects', JSON.stringify(list))
+  }
+}
+
+async function uploadProjectImages(projectId, files) {
+  const sb = getClient()
+  const urls = []
+  for (let i = 0; i < Math.min(files.length, 5); i++) {
+    const file = files[i]
+    const ext = file.name.split('.').pop()
+    const path = `${projectId}/${Date.now()}_${i}.${ext}`
+    if (sb) {
+      const { error } = await sb.storage.from('project-images').upload(path, file, { upsert: true })
+      if (error) throw error
+      const { data: { publicUrl } } = sb.storage.from('project-images').getPublicUrl(path)
+      urls.push(publicUrl)
+    } else {
+      urls.push(URL.createObjectURL(file))
+    }
+  }
+  return urls
+}
+
+function defaultProjects() {
+  return JSON.stringify([
+    { id: 9, title: '광주 서구 주상복합 해체공사', category: 'rc', description: '연면적 1,200㎡, 지상 5층 RC구조 주상복합 건물 해체공사.', tags: ['연면적 1,200㎡','지상 5층','RC구조','2024'], youtube_url: '', images: [], status: 'published', created_at: '2024-10-01T00:00:00Z' },
+    { id: 8, title: '광산구 식품공장 철거공사', category: 'steel', description: '연면적 3,500㎡ 단층 철골구조 식품공장 철거.', tags: ['연면적 3,500㎡','단층','철골구조','2024'], youtube_url: '', images: [], status: 'published', created_at: '2024-08-01T00:00:00Z' },
+    { id: 7, title: '북구 아파트 증축 코어 커팅', category: 'cutting', description: '아파트 증축을 위한 벽체 코어 커팅 작업.', tags: ['벽체 커팅','와이어쏘','무진동','2023'], youtube_url: '', images: [], status: 'published', created_at: '2023-11-01T00:00:00Z' },
+    { id: 6, title: '동구 대형마트 내부 인테리어 철거', category: 'interior', description: '3,000㎡ 대형마트 내부 인테리어 철거.', tags: ['3,000㎡','야간 작업','2023'], youtube_url: '', images: [], status: 'published', created_at: '2023-09-01T00:00:00Z' },
+    { id: 5, title: '남구 폐교 건물 해체공사', category: 'rc', description: '연면적 2,200㎡ 지상 3층 RC구조 폐교 해체.', tags: ['연면적 2,200㎡','지상 3층','RC구조','2023'], youtube_url: '', images: [], status: 'published', created_at: '2023-06-01T00:00:00Z' },
+    { id: 4, title: '서구 재개발구역 폐기물 처리', category: 'waste', description: '재개발구역 내 폐콘크리트·폐목재 수집 운반.', tags: ['폐콘크리트 800톤','폐목재 120톤','2022'], youtube_url: '', images: [], status: 'published', created_at: '2022-10-01T00:00:00Z' },
+  ])
+}
+
 // 샘플 게시글 데이터
 function defaultPosts() {
   return JSON.stringify([

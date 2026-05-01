@@ -82,6 +82,52 @@ INSERT INTO board_posts (title, content, category, is_notice, views) VALUES
   'project', FALSE, 87
 );
 
+-- ── 시공 프로젝트 테이블 ─────────────────────────────────────
+CREATE TABLE IF NOT EXISTS projects (
+  id          BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  title       TEXT NOT NULL,
+  category    TEXT NOT NULL DEFAULT 'rc',  -- rc | steel | interior | cutting | waste
+  description TEXT,
+  tags        TEXT[] DEFAULT '{}',
+  youtube_url TEXT,
+  images      TEXT[] DEFAULT '{}',         -- Storage 공개 URL 최대 5개
+  status      TEXT DEFAULT 'published',    -- published | draft
+  sort_order  INT DEFAULT 0,
+  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "anon_read_projects"
+  ON projects FOR SELECT TO anon
+  USING (status = 'published');
+
+CREATE POLICY "admin_all_projects"
+  ON projects FOR ALL TO authenticated
+  USING (true) WITH CHECK (true);
+
+-- ── Storage 버킷: project-images ─────────────────────────────
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('project-images', 'project-images', true)
+ON CONFLICT (id) DO NOTHING;
+
+CREATE POLICY "public_read_project_images"
+  ON storage.objects FOR SELECT TO anon
+  USING (bucket_id = 'project-images');
+
+CREATE POLICY "admin_upload_project_images"
+  ON storage.objects FOR INSERT TO authenticated
+  WITH CHECK (bucket_id = 'project-images');
+
+CREATE POLICY "admin_update_project_images"
+  ON storage.objects FOR UPDATE TO authenticated
+  USING (bucket_id = 'project-images');
+
+CREATE POLICY "admin_delete_project_images"
+  ON storage.objects FOR DELETE TO authenticated
+  USING (bucket_id = 'project-images');
+
 -- ── 관리자 계정 생성 안내 ────────────────────────────────────
 -- Supabase 대시보드 → Authentication → Users → Invite user
 -- 이메일: admin@sunpoong.co.kr  (원하는 이메일로 변경)

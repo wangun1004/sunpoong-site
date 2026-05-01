@@ -136,6 +136,9 @@
     <button class="nav-item" onclick="showPanel('board')">
       <span class="icon">📋</span> 게시판 관리
     </button>
+    <button class="nav-item" onclick="showPanel('projects')">
+      <span class="icon">🏗</span> 시공 프로젝트
+    </button>
     <div class="nav-section" style="margin-top:8px">바로가기</div>
     <button class="nav-item" onclick="window.open('../index.html','_blank')">
       <span class="icon">🌐</span> 홈페이지 보기
@@ -240,6 +243,23 @@
       <div class="pager" id="boardPager"></div>
     </div>
 
+    <!-- 시공 프로젝트 패널 -->
+    <div class="panel" id="panel-projects">
+      <div class="card">
+        <div class="card-header">
+          <h2>시공 프로젝트 관리</h2>
+          <button class="btn-new" onclick="openProjectEditor()">+ 새 프로젝트 추가</button>
+        </div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>제목</th><th>분류</th><th>이미지</th><th>동영상</th><th>상태</th><th>등록일</th><th>관리</th></tr></thead>
+            <tbody id="projectBody"><tr><td colspan="7" class="empty"><div class="spinner"></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="pager" id="projectPager"></div>
+    </div>
+
   </div><!-- /content -->
 </div><!-- /main -->
 
@@ -318,6 +338,60 @@
   </div>
 </div>
 
+<!-- 프로젝트 편집 모달 -->
+<div class="modal-backdrop" id="projectModal">
+  <div class="modal" style="max-width:700px">
+    <h3 id="projectModalTitle">🏗 시공 프로젝트 추가</h3>
+    <input type="hidden" id="proj-id">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="form-group" style="margin:0">
+        <label>제목 *</label>
+        <input type="text" id="proj-title" placeholder="공사명을 입력하세요">
+      </div>
+      <div class="form-group" style="margin:0">
+        <label>분류 *</label>
+        <select id="proj-category">
+          <option value="rc">RC 해체</option>
+          <option value="steel">철골 해체</option>
+          <option value="interior">내부 철거</option>
+          <option value="cutting">정밀 커팅</option>
+          <option value="waste">폐기물 처리</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:16px">
+      <label>설명</label>
+      <textarea id="proj-desc" rows="3" placeholder="공사 내용을 간략히 설명해주세요"></textarea>
+    </div>
+    <div class="form-group">
+      <label>태그 <span style="font-weight:400;color:var(--gray)">(쉼표로 구분 예: 연면적 1,200㎡, RC구조, 2024)</span></label>
+      <input type="text" id="proj-tags" placeholder="연면적 1,200㎡, 지상 5층, RC구조, 2024">
+    </div>
+    <div class="form-group">
+      <label>유튜브 URL <span style="font-weight:400;color:var(--gray)">(선택사항)</span></label>
+      <input type="text" id="proj-youtube" placeholder="https://www.youtube.com/watch?v=...">
+    </div>
+    <div class="form-group">
+      <label>이미지 업로드 <span style="font-weight:400;color:var(--gray)">(최대 5장, JPG/PNG/WEBP)</span></label>
+      <input type="file" id="proj-images" multiple accept="image/*" onchange="previewImages(this)">
+      <div id="proj-img-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
+      <div id="proj-existing-imgs" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
+    </div>
+    <div class="form-group">
+      <label>공개 상태</label>
+      <select id="proj-status">
+        <option value="published">공개</option>
+        <option value="draft">비공개(임시저장)</option>
+      </select>
+    </div>
+    <div id="proj-upload-progress" style="display:none;color:var(--green);font-size:13px;margin-bottom:8px">⏳ 이미지 업로드 중...</div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-danger" onclick="closeModal('projectModal')">취소</button>
+      <button class="btn-sm btn-primary" onclick="saveProject()">저장</button>
+    </div>
+  </div>
+</div>
+
 <script src="../js/config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../js/db.js"></script>
@@ -336,13 +410,14 @@ function showPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
-  document.querySelectorAll('.nav-item')[
-    ['dashboard','inquiries','board'].indexOf(name)
-  ]?.classList.add('active');
-  const titles = { dashboard:'대시보드', inquiries:'견적 문의 관리', board:'게시판 관리' };
+  // 클릭된 버튼 active
+  const navBtns = document.querySelectorAll('.nav-item');
+  navBtns.forEach(btn => { if (btn.getAttribute('onclick')?.includes(`'${name}'`)) btn.classList.add('active'); });
+  const titles = { dashboard:'대시보드', inquiries:'견적 문의 관리', board:'게시판 관리', projects:'시공 프로젝트 관리' };
   document.getElementById('panelTitle').textContent = titles[name] || name;
   if (name === 'inquiries') loadInquiries(1);
   if (name === 'board') loadBoard(1);
+  if (name === 'projects') loadProjectsPanel(1);
 }
 
 // ── 대시보드 ───────────────────────────────────────────────
@@ -542,6 +617,136 @@ function toast(msg, type='success') {
   el.textContent = msg;
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 3000);
+}
+
+// ── 시공 프로젝트 ──────────────────────────────────────────
+const projCatLabel = { rc:'RC 해체', steel:'철골 해체', interior:'내부 철거', cutting:'정밀 커팅', waste:'폐기물 처리' };
+let projPage = 1, projTotal = 0, projEditImages = [];
+
+async function loadProjectsPanel(page) {
+  projPage = page;
+  document.getElementById('projectBody').innerHTML = '<tr><td colspan="7" class="empty"><div class="spinner"></div></td></tr>';
+  try {
+    const { data, count } = await getAllProjectsAdmin({ page, limit: 20 });
+    projTotal = count;
+    const tbody = document.getElementById('projectBody');
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty"><div class="icon">🏗</div><p>프로젝트가 없습니다</p></td></tr>';
+      return;
+    }
+    tbody.innerHTML = data.map(p => `
+      <tr>
+        <td style="font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</td>
+        <td><span class="tag tag-blue">${projCatLabel[p.category] || p.category}</span></td>
+        <td style="color:var(--gray)">${(p.images||[]).length}장</td>
+        <td>${p.youtube_url ? '✅' : '-'}</td>
+        <td><span class="tag ${p.status==='published'?'tag-green':'tag-gray'}">${p.status==='published'?'공개':'비공개'}</span></td>
+        <td style="color:var(--gray);font-size:12px">${formatDate(p.created_at)}</td>
+        <td style="display:flex;gap:6px">
+          <button class="btn-sm btn-primary" onclick="openProjectEditor(${JSON.stringify(p).replace(/"/g,'&quot;')})">수정</button>
+          <button class="btn-sm btn-danger" onclick="delProject(${p.id})">삭제</button>
+        </td>
+      </tr>
+    `).join('');
+    renderPager('projectPager', count, 20, page, loadProjectsPanel);
+  } catch(e) {
+    document.getElementById('projectBody').innerHTML = `<tr><td colspan="7" class="empty">오류: ${e.message}</td></tr>`;
+  }
+}
+
+function openProjectEditor(proj) {
+  projEditImages = proj?.images || [];
+  document.getElementById('projectModalTitle').textContent = proj ? '🏗 프로젝트 수정' : '🏗 시공 프로젝트 추가';
+  document.getElementById('proj-id').value = proj?.id || '';
+  document.getElementById('proj-title').value = proj?.title || '';
+  document.getElementById('proj-category').value = proj?.category || 'rc';
+  document.getElementById('proj-desc').value = proj?.description || '';
+  document.getElementById('proj-tags').value = (proj?.tags || []).join(', ');
+  document.getElementById('proj-youtube').value = proj?.youtube_url || '';
+  document.getElementById('proj-status').value = proj?.status || 'published';
+  document.getElementById('proj-images').value = '';
+  document.getElementById('proj-img-preview').innerHTML = '';
+  document.getElementById('proj-upload-progress').style.display = 'none';
+  // 기존 이미지 표시
+  const existEl = document.getElementById('proj-existing-imgs');
+  existEl.innerHTML = projEditImages.map((url, i) => `
+    <div style="position:relative;display:inline-block">
+      <img src="${url}" style="width:72px;height:72px;object-fit:cover;border-radius:8px;border:2px solid var(--border)">
+      <button onclick="removeExistingImg(${i})" style="position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;padding:0">×</button>
+    </div>`).join('');
+  document.getElementById('projectModal').classList.add('open');
+}
+
+function removeExistingImg(i) {
+  projEditImages.splice(i, 1);
+  openProjectEditor({ id: document.getElementById('proj-id').value, title: document.getElementById('proj-title').value,
+    category: document.getElementById('proj-category').value, description: document.getElementById('proj-desc').value,
+    tags: document.getElementById('proj-tags').value.split(',').map(t=>t.trim()),
+    youtube_url: document.getElementById('proj-youtube').value, status: document.getElementById('proj-status').value,
+    images: projEditImages });
+}
+
+function previewImages(input) {
+  const preview = document.getElementById('proj-img-preview');
+  preview.innerHTML = '';
+  Array.from(input.files).slice(0, 5).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.cssText = 'width:72px;height:72px;object-fit:cover;border-radius:8px;border:2px solid var(--green)';
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function saveProject() {
+  const id = document.getElementById('proj-id').value;
+  const title = document.getElementById('proj-title').value.trim();
+  if (!title) { toast('제목을 입력하세요', 'error'); return; }
+  const data = {
+    title,
+    category: document.getElementById('proj-category').value,
+    description: document.getElementById('proj-desc').value.trim(),
+    tags: document.getElementById('proj-tags').value.split(',').map(t => t.trim()).filter(Boolean),
+    youtube_url: document.getElementById('proj-youtube').value.trim(),
+    status: document.getElementById('proj-status').value,
+    images: [...projEditImages],
+  };
+  try {
+    const progressEl = document.getElementById('proj-upload-progress');
+    const files = document.getElementById('proj-images').files;
+    let projectId = id;
+    if (!id) {
+      const row = await createProject(data);
+      projectId = row.id;
+      if (files.length > 0) {
+        progressEl.style.display = 'block';
+        const urls = await uploadProjectImages(projectId, files);
+        await updateProject(projectId, { images: urls });
+      }
+    } else {
+      if (files.length > 0) {
+        progressEl.style.display = 'block';
+        const newUrls = await uploadProjectImages(id, files);
+        data.images = [...projEditImages, ...newUrls].slice(0, 5);
+      }
+      await updateProject(id, data);
+    }
+    closeModal('projectModal');
+    toast(id ? '수정되었습니다' : '등록되었습니다');
+    loadProjectsPanel(projPage);
+  } catch(e) { toast('저장 오류: ' + e.message, 'error'); }
+}
+
+async function delProject(id) {
+  if (!confirm('프로젝트를 삭제하시겠습니까?')) return;
+  try {
+    await deleteProject(id);
+    toast('삭제되었습니다');
+    loadProjectsPanel(projPage);
+  } catch(e) { toast('삭제 오류: ' + e.message, 'error'); }
 }
 
 async function doLogout() {
