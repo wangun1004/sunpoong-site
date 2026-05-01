@@ -23,6 +23,7 @@ body.home-page {
   min-height: 100vh;
   display: block;
   overflow-x: hidden;
+  padding-top: 68px; /* fixed 헤더 높이만큼 밀어냄 */
 }
 
 /* 첫 화면: 헤더 아래 100vh 채우기 */
@@ -34,11 +35,11 @@ body.home-page {
 
 /* ===== 헤더 ===== */
 #header {
-  flex: 0 0 auto;
+  position: fixed;
+  top: 0; left: 0; right: 0;
   background: #fff;
   box-shadow: 0 2px 12px rgba(0,0,0,.08);
-  position: relative;
-  z-index: 100;
+  z-index: 1000;
 }
 .header-inner {
   max-width: 1400px; margin: 0 auto;
@@ -248,9 +249,10 @@ body:not(.home-page) {
   display: block;
   height: auto;
   overflow: auto;
+  padding-top: 68px; /* fixed 헤더 높이만큼 밀어냄 */
 }
 body:not(.home-page) #header {
-  position: sticky; top: 0; z-index: 100;
+  z-index: 1000;
 }
 body:not(.home-page) #footer {
   height: auto; padding: 0;
