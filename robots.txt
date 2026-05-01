@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# 관리자 페이지 검색 제외
+Disallow: /admin/
+
+Sitemap: https://wangun1004.github.io/sunpoong-site/sitemap.xml
