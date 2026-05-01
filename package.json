@@ -5,7 +5,10 @@
   "scripts": {
     "postinstall": "patch-package",
     "sync": "node scripts/sync-www.js && npx cap sync android",
-    "dev": "node scripts/sync-www.js && npx cap sync android && npx cap run android --live-reload --host 172.30.1.32 --port 3000",
+    "serve": "browser-sync start --server www --port 3000 --host 0.0.0.0 --no-ui --no-open --no-notify",
+    "watch": "chokidar \"*.html\" \"css/**\" \"js/**\" \"images/**\" -c \"node scripts/sync-www.js\"",
+    "cap:run": "npx cap run android --live-reload --host 172.30.1.32 --port 3000 --target R3CXC0APZTF",
+    "dev": "node scripts/sync-www.js && npx cap sync android && concurrently -n SERVE,WATCH \"npm run serve\" \"npm run watch\" --kill-others-on-fail",
     "build": "node scripts/sync-www.js && npx cap sync android",
     "open": "npx cap open android"
   },
@@ -27,6 +30,9 @@
     "@capacitor/core": "^8.3.1"
   },
   "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^9.2.1",
     "patch-package": "^8.0.1"
   }
 }
