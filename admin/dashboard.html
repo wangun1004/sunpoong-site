@@ -368,11 +368,15 @@
       <input type="text" id="proj-tags" placeholder="연면적 1,200㎡, 지상 5층, RC구조, 2024">
     </div>
     <div class="form-group">
-      <label>유튜브 URL <span style="font-weight:400;color:var(--gray)">(선택사항)</span></label>
+      <label>유튜브 URL 1 <span style="font-weight:400;color:var(--gray)">(선택사항)</span></label>
       <input type="text" id="proj-youtube" placeholder="https://www.youtube.com/watch?v=...">
     </div>
     <div class="form-group">
-      <label>이미지 업로드 <span style="font-weight:400;color:var(--gray)">(최대 5장, JPG/PNG/WEBP)</span></label>
+      <label>유튜브 URL 2 <span style="font-weight:400;color:var(--gray)">(선택사항)</span></label>
+      <input type="text" id="proj-youtube2" placeholder="https://www.youtube.com/watch?v=...">
+    </div>
+    <div class="form-group">
+      <label>이미지 업로드 <span style="font-weight:400;color:var(--gray)">(최대 7장, JPG/PNG/WEBP)</span></label>
       <input type="file" id="proj-images" multiple accept="image/*" onchange="previewImages(this)">
       <div id="proj-img-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
       <div id="proj-existing-imgs" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
@@ -663,6 +667,7 @@ function openProjectEditor(proj) {
   document.getElementById('proj-desc').value = proj?.description || '';
   document.getElementById('proj-tags').value = (proj?.tags || []).join(', ');
   document.getElementById('proj-youtube').value = proj?.youtube_url || '';
+  document.getElementById('proj-youtube2').value = proj?.youtube_url2 || '';
   document.getElementById('proj-status').value = proj?.status || 'published';
   document.getElementById('proj-images').value = '';
   document.getElementById('proj-img-preview').innerHTML = '';
@@ -682,14 +687,14 @@ function removeExistingImg(i) {
   openProjectEditor({ id: document.getElementById('proj-id').value, title: document.getElementById('proj-title').value,
     category: document.getElementById('proj-category').value, description: document.getElementById('proj-desc').value,
     tags: document.getElementById('proj-tags').value.split(',').map(t=>t.trim()),
-    youtube_url: document.getElementById('proj-youtube').value, status: document.getElementById('proj-status').value,
+    youtube_url: document.getElementById('proj-youtube').value, youtube_url2: document.getElementById('proj-youtube2').value, status: document.getElementById('proj-status').value,
     images: projEditImages });
 }
 
 function previewImages(input) {
   const preview = document.getElementById('proj-img-preview');
   preview.innerHTML = '';
-  Array.from(input.files).slice(0, 5).forEach(file => {
+  Array.from(input.files).slice(0, 7).forEach(file => {
     const reader = new FileReader();
     reader.onload = e => {
       const img = document.createElement('img');
@@ -711,6 +716,7 @@ async function saveProject() {
     description: document.getElementById('proj-desc').value.trim(),
     tags: document.getElementById('proj-tags').value.split(',').map(t => t.trim()).filter(Boolean),
     youtube_url: document.getElementById('proj-youtube').value.trim(),
+    youtube_url2: document.getElementById('proj-youtube2').value.trim(),
     status: document.getElementById('proj-status').value,
     images: [...projEditImages],
   };
@@ -730,7 +736,7 @@ async function saveProject() {
       if (files.length > 0) {
         progressEl.style.display = 'block';
         const newUrls = await uploadProjectImages(id, files);
-        data.images = [...projEditImages, ...newUrls].slice(0, 5);
+        data.images = [...projEditImages, ...newUrls].slice(0, 7);
       }
       await updateProject(id, data);
     }

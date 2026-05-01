@@ -208,9 +208,18 @@ async function getAllProjectsAdmin({ page = 1, limit = 20 } = {}) {
 async function createProject(data) {
   const sb = getClient()
   if (sb) {
-    const { data: row, error } = await sb.from('projects').insert([data]).select().single()
-    if (error) throw error
-    return row
+    try {
+      const { data: row, error } = await sb.from('projects').insert([data]).select().single()
+      if (error) throw error
+      return row
+    } catch(e) {
+      // 테이블 미생성 시 localStorage fallback
+      const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+      const row = { ...data, id: Date.now(), created_at: new Date().toISOString() }
+      list.unshift(row)
+      localStorage.setItem('projects', JSON.stringify(list))
+      return row
+    }
   } else {
     const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
     const row = { ...data, id: Date.now(), created_at: new Date().toISOString() }
@@ -223,8 +232,14 @@ async function createProject(data) {
 async function updateProject(id, data) {
   const sb = getClient()
   if (sb) {
-    const { error } = await sb.from('projects').update({ ...data, updated_at: new Date().toISOString() }).eq('id', id)
-    if (error) throw error
+    try {
+      const { error } = await sb.from('projects').update({ ...data, updated_at: new Date().toISOString() }).eq('id', id)
+      if (error) throw error
+    } catch(e) {
+      const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+      const i = list.findIndex(r => r.id == id)
+      if (i >= 0) { list[i] = { ...list[i], ...data }; localStorage.setItem('projects', JSON.stringify(list)) }
+    }
   } else {
     const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
     const i = list.findIndex(r => r.id == id)
@@ -235,8 +250,14 @@ async function updateProject(id, data) {
 async function deleteProject(id) {
   const sb = getClient()
   if (sb) {
-    const { error } = await sb.from('projects').delete().eq('id', id)
-    if (error) throw error
+    try {
+      const { error } = await sb.from('projects').delete().eq('id', id)
+      if (error) throw error
+    } catch(e) {
+      let list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+      list = list.filter(r => r.id != id)
+      localStorage.setItem('projects', JSON.stringify(list))
+    }
   } else {
     let list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
     list = list.filter(r => r.id != id)
@@ -247,7 +268,7 @@ async function deleteProject(id) {
 async function uploadProjectImages(projectId, files) {
   const sb = getClient()
   const urls = []
-  for (let i = 0; i < Math.min(files.length, 5); i++) {
+  for (let i = 0; i < Math.min(files.length, 7); i++) {
     const file = files[i]
     const ext = file.name.split('.').pop()
     const path = `${projectId}/${Date.now()}_${i}.${ext}`

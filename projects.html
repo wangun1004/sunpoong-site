@@ -107,6 +107,9 @@
     <div id="pdVideo" style="display:none;background:#000;aspect-ratio:16/9">
       <iframe id="pdIframe" width="100%" height="100%" frameborder="0" allowfullscreen style="display:block"></iframe>
     </div>
+    <div id="pdVideo2" style="display:none;background:#000;aspect-ratio:16/9;margin-top:4px">
+      <iframe id="pdIframe2" width="100%" height="100%" frameborder="0" allowfullscreen style="display:block"></iframe>
+    </div>
     <div id="pdGallery" style="display:none;padding:16px;background:#f1f5f9">
       <div id="pdMainImg" style="text-align:center;margin-bottom:12px">
         <img id="pdBigImg" src="" alt="" style="max-height:400px;max-width:100%;border-radius:10px;object-fit:contain">
@@ -174,7 +177,7 @@ function openProjectDetail(p) {
   document.getElementById('pdDesc').textContent = p.description || '';
   document.getElementById('pdTags').innerHTML = (p.tags||[]).map(t=>`<span style="background:#f1f5f9;color:#64748b;padding:4px 12px;border-radius:8px;font-size:13px">${t}</span>`).join('');
 
-  // 유튜브
+  // 유튜브 1
   const videoEl = document.getElementById('pdVideo');
   const iframe = document.getElementById('pdIframe');
   if (p.youtube_url) {
@@ -183,6 +186,16 @@ function openProjectDetail(p) {
     else videoEl.style.display = 'none';
   } else {
     iframe.src = ''; videoEl.style.display = 'none';
+  }
+  // 유튜브 2
+  const videoEl2 = document.getElementById('pdVideo2');
+  const iframe2 = document.getElementById('pdIframe2');
+  if (p.youtube_url2) {
+    const vid2 = p.youtube_url2.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/)?.[1];
+    if (vid2) { iframe2.src = `https://www.youtube.com/embed/${vid2}`; videoEl2.style.display = 'block'; }
+    else videoEl2.style.display = 'none';
+  } else {
+    iframe2.src = ''; videoEl2.style.display = 'none';
   }
 
   // 이미지 갤러리

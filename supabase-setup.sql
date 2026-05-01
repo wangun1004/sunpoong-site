@@ -89,8 +89,9 @@ CREATE TABLE IF NOT EXISTS projects (
   category    TEXT NOT NULL DEFAULT 'rc',  -- rc | steel | interior | cutting | waste
   description TEXT,
   tags        TEXT[] DEFAULT '{}',
-  youtube_url TEXT,
-  images      TEXT[] DEFAULT '{}',         -- Storage 공개 URL 최대 5개
+  youtube_url  TEXT,
+  youtube_url2 TEXT,
+  images       TEXT[] DEFAULT '{}',        -- Storage 공개 URL 최대 7개
   status      TEXT DEFAULT 'published',    -- published | draft
   sort_order  INT DEFAULT 0,
   created_at  TIMESTAMPTZ DEFAULT NOW(),
