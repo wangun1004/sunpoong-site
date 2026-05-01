@@ -163,14 +163,21 @@ async function isAdminLoggedIn() {
 async function getProjects({ category, page = 1, limit = 20 } = {}) {
   const sb = getClient()
   if (sb) {
-    let q = sb.from('projects').select('*', { count: 'exact' })
-      .eq('status', 'published')
-      .order('created_at', { ascending: false })
-      .range((page - 1) * limit, page * limit - 1)
-    if (category && category !== 'all') q = q.eq('category', category)
-    const { data, count, error } = await q
-    if (error) throw error
-    return { data, count }
+    try {
+      let q = sb.from('projects').select('*', { count: 'exact' })
+        .eq('status', 'published')
+        .order('created_at', { ascending: false })
+        .range((page - 1) * limit, page * limit - 1)
+      if (category && category !== 'all') q = q.eq('category', category)
+      const { data, count, error } = await q
+      if (error) throw error
+      return { data, count }
+    } catch(e) {
+      // 테이블 미생성 시 로컬 샘플 데이터로 fallback
+      let list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+      if (category && category !== 'all') list = list.filter(r => r.category === category)
+      return { data: list.slice((page-1)*limit, page*limit), count: list.length, _fallback: true }
+    }
   } else {
     let list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
     if (category && category !== 'all') list = list.filter(r => r.category === category)
@@ -181,12 +188,17 @@ async function getProjects({ category, page = 1, limit = 20 } = {}) {
 async function getAllProjectsAdmin({ page = 1, limit = 20 } = {}) {
   const sb = getClient()
   if (sb) {
-    const { data, count, error } = await sb.from('projects')
-      .select('*', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .range((page - 1) * limit, page * limit - 1)
-    if (error) throw error
-    return { data, count }
+    try {
+      const { data, count, error } = await sb.from('projects')
+        .select('*', { count: 'exact' })
+        .order('created_at', { ascending: false })
+        .range((page - 1) * limit, page * limit - 1)
+      if (error) throw error
+      return { data, count }
+    } catch(e) {
+      const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
+      return { data: list.slice((page-1)*limit, page*limit), count: list.length, _fallback: true }
+    }
   } else {
     const list = JSON.parse(localStorage.getItem('projects') || defaultProjects())
     return { data: list.slice((page - 1) * limit, page * limit), count: list.length }
