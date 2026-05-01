@@ -16,3 +16,7 @@ android/.idea/caches/
 
 # Capacitor
 .capacitor/
+
+# 서명 키스토어 (보안)
+android/app/*.keystore
+android/app/*.jks
