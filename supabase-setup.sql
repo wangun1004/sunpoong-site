@@ -89,9 +89,8 @@ CREATE TABLE IF NOT EXISTS projects (
   category    TEXT NOT NULL DEFAULT 'rc',  -- rc | steel | interior | cutting | waste
   description TEXT,
   tags        TEXT[] DEFAULT '{}',
-  youtube_url  TEXT,
-  youtube_url2 TEXT,
-  images       TEXT[] DEFAULT '{}',        -- Storage 공개 URL 최대 7개
+  videos       TEXT[] DEFAULT '{}',         -- Storage 공개 URL 최대 2개 (MP4 등)
+  images       TEXT[] DEFAULT '{}',         -- Storage 공개 URL 최대 7개
   status      TEXT DEFAULT 'published',    -- published | draft
   sort_order  INT DEFAULT 0,
   created_at  TIMESTAMPTZ DEFAULT NOW(),
@@ -128,6 +127,27 @@ CREATE POLICY "admin_update_project_images"
 CREATE POLICY "admin_delete_project_images"
   ON storage.objects FOR DELETE TO authenticated
   USING (bucket_id = 'project-images');
+
+-- ── Storage 버킷: project-videos ─────────────────────────────
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('project-videos', 'project-videos', true)
+ON CONFLICT (id) DO NOTHING;
+
+CREATE POLICY "public_read_project_videos"
+  ON storage.objects FOR SELECT TO anon
+  USING (bucket_id = 'project-videos');
+
+CREATE POLICY "admin_upload_project_videos"
+  ON storage.objects FOR INSERT TO authenticated
+  WITH CHECK (bucket_id = 'project-videos');
+
+CREATE POLICY "admin_update_project_videos"
+  ON storage.objects FOR UPDATE TO authenticated
+  USING (bucket_id = 'project-videos');
+
+CREATE POLICY "admin_delete_project_videos"
+  ON storage.objects FOR DELETE TO authenticated
+  USING (bucket_id = 'project-videos');
 
 -- ── 관리자 계정 생성 안내 ────────────────────────────────────
 -- Supabase 대시보드 → Authentication → Users → Invite user

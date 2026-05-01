@@ -273,10 +273,41 @@ async function uploadProjectImages(projectId, files) {
     const ext = file.name.split('.').pop()
     const path = `${projectId}/${Date.now()}_${i}.${ext}`
     if (sb) {
-      const { error } = await sb.storage.from('project-images').upload(path, file, { upsert: true })
-      if (error) throw error
-      const { data: { publicUrl } } = sb.storage.from('project-images').getPublicUrl(path)
-      urls.push(publicUrl)
+      try {
+        const { error } = await sb.storage.from('project-images').upload(path, file, { upsert: true })
+        if (error) throw error
+        const { data: { publicUrl } } = sb.storage.from('project-images').getPublicUrl(path)
+        urls.push(publicUrl)
+      } catch(e) {
+        // Storage 버킷 미생성 시 임시 URL fallback
+        urls.push(URL.createObjectURL(file))
+      }
+    } else {
+      urls.push(URL.createObjectURL(file))
+    }
+  }
+  return urls
+}
+
+async function uploadProjectVideos(projectId, files) {
+  const sb = getClient()
+  const urls = []
+  for (let i = 0; i < Math.min(files.length, 2); i++) {
+    const file = files[i]
+    const ext = file.name.split('.').pop()
+    const path = `${projectId}/${Date.now()}_${i}.${ext}`
+    if (sb) {
+      try {
+        const { error } = await sb.storage.from('project-videos').upload(path, file, {
+          upsert: true, contentType: file.type
+        })
+        if (error) throw error
+        const { data: { publicUrl } } = sb.storage.from('project-videos').getPublicUrl(path)
+        urls.push(publicUrl)
+      } catch(e) {
+        // Storage 버킷 미생성 시 임시 URL fallback
+        urls.push(URL.createObjectURL(file))
+      }
     } else {
       urls.push(URL.createObjectURL(file))
     }
@@ -286,12 +317,12 @@ async function uploadProjectImages(projectId, files) {
 
 function defaultProjects() {
   return JSON.stringify([
-    { id: 9, title: '광주 서구 주상복합 해체공사', category: 'rc', description: '연면적 1,200㎡, 지상 5층 RC구조 주상복합 건물 해체공사.', tags: ['연면적 1,200㎡','지상 5층','RC구조','2024'], youtube_url: '', images: [], status: 'published', created_at: '2024-10-01T00:00:00Z' },
-    { id: 8, title: '광산구 식품공장 철거공사', category: 'steel', description: '연면적 3,500㎡ 단층 철골구조 식품공장 철거.', tags: ['연면적 3,500㎡','단층','철골구조','2024'], youtube_url: '', images: [], status: 'published', created_at: '2024-08-01T00:00:00Z' },
-    { id: 7, title: '북구 아파트 증축 코어 커팅', category: 'cutting', description: '아파트 증축을 위한 벽체 코어 커팅 작업.', tags: ['벽체 커팅','와이어쏘','무진동','2023'], youtube_url: '', images: [], status: 'published', created_at: '2023-11-01T00:00:00Z' },
-    { id: 6, title: '동구 대형마트 내부 인테리어 철거', category: 'interior', description: '3,000㎡ 대형마트 내부 인테리어 철거.', tags: ['3,000㎡','야간 작업','2023'], youtube_url: '', images: [], status: 'published', created_at: '2023-09-01T00:00:00Z' },
-    { id: 5, title: '남구 폐교 건물 해체공사', category: 'rc', description: '연면적 2,200㎡ 지상 3층 RC구조 폐교 해체.', tags: ['연면적 2,200㎡','지상 3층','RC구조','2023'], youtube_url: '', images: [], status: 'published', created_at: '2023-06-01T00:00:00Z' },
-    { id: 4, title: '서구 재개발구역 폐기물 처리', category: 'waste', description: '재개발구역 내 폐콘크리트·폐목재 수집 운반.', tags: ['폐콘크리트 800톤','폐목재 120톤','2022'], youtube_url: '', images: [], status: 'published', created_at: '2022-10-01T00:00:00Z' },
+    { id: 9, title: '광주 서구 주상복합 해체공사', category: 'rc', description: '연면적 1,200㎡, 지상 5층 RC구조 주상복합 건물 해체공사.', tags: ['연면적 1,200㎡','지상 5층','RC구조','2024'], videos: [], images: [], status: 'published', created_at: '2024-10-01T00:00:00Z' },
+    { id: 8, title: '광산구 식품공장 철거공사', category: 'steel', description: '연면적 3,500㎡ 단층 철골구조 식품공장 철거.', tags: ['연면적 3,500㎡','단층','철골구조','2024'], videos: [], images: [], status: 'published', created_at: '2024-08-01T00:00:00Z' },
+    { id: 7, title: '북구 아파트 증축 코어 커팅', category: 'cutting', description: '아파트 증축을 위한 벽체 코어 커팅 작업.', tags: ['벽체 커팅','와이어쏘','무진동','2023'], videos: [], images: [], status: 'published', created_at: '2023-11-01T00:00:00Z' },
+    { id: 6, title: '동구 대형마트 내부 인테리어 철거', category: 'interior', description: '3,000㎡ 대형마트 내부 인테리어 철거.', tags: ['3,000㎡','야간 작업','2023'], videos: [], images: [], status: 'published', created_at: '2023-09-01T00:00:00Z' },
+    { id: 5, title: '남구 폐교 건물 해체공사', category: 'rc', description: '연면적 2,200㎡ 지상 3층 RC구조 폐교 해체.', tags: ['연면적 2,200㎡','지상 3층','RC구조','2023'], videos: [], images: [], status: 'published', created_at: '2023-06-01T00:00:00Z' },
+    { id: 4, title: '서구 재개발구역 폐기물 처리', category: 'waste', description: '재개발구역 내 폐콘크리트·폐목재 수집 운반.', tags: ['폐콘크리트 800톤','폐목재 120톤','2022'], videos: [], images: [], status: 'published', created_at: '2022-10-01T00:00:00Z' },
   ])
 }
 

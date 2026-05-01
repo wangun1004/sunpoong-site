@@ -368,12 +368,10 @@
       <input type="text" id="proj-tags" placeholder="연면적 1,200㎡, 지상 5층, RC구조, 2024">
     </div>
     <div class="form-group">
-      <label>유튜브 URL 1 <span style="font-weight:400;color:var(--gray)">(선택사항)</span></label>
-      <input type="text" id="proj-youtube" placeholder="https://www.youtube.com/watch?v=...">
-    </div>
-    <div class="form-group">
-      <label>유튜브 URL 2 <span style="font-weight:400;color:var(--gray)">(선택사항)</span></label>
-      <input type="text" id="proj-youtube2" placeholder="https://www.youtube.com/watch?v=...">
+      <label>동영상 업로드 <span style="font-weight:400;color:var(--gray)">(최대 2개, MP4/MOV/WEBM · 각 500MB 이하 권장)</span></label>
+      <input type="file" id="proj-videos" multiple accept="video/*" onchange="previewVideos(this)">
+      <div id="proj-video-preview" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
+      <div id="proj-existing-videos" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"></div>
     </div>
     <div class="form-group">
       <label>이미지 업로드 <span style="font-weight:400;color:var(--gray)">(최대 7장, JPG/PNG/WEBP)</span></label>
@@ -388,7 +386,7 @@
         <option value="draft">비공개(임시저장)</option>
       </select>
     </div>
-    <div id="proj-upload-progress" style="display:none;color:var(--green);font-size:13px;margin-bottom:8px">⏳ 이미지 업로드 중...</div>
+    <div id="proj-upload-progress" style="display:none;color:var(--green);font-size:13px;margin-bottom:8px">⏳ 파일 업로드 중...</div>
     <div class="modal-footer">
       <button class="btn-sm btn-danger" onclick="closeModal('projectModal')">취소</button>
       <button class="btn-sm btn-primary" onclick="saveProject()">저장</button>
@@ -625,7 +623,7 @@ function toast(msg, type='success') {
 
 // ── 시공 프로젝트 ──────────────────────────────────────────
 const projCatLabel = { rc:'RC 해체', steel:'철골 해체', interior:'내부 철거', cutting:'정밀 커팅', waste:'폐기물 처리' };
-let projPage = 1, projTotal = 0, projEditImages = [];
+let projPage = 1, projTotal = 0, projEditImages = [], projEditVideos = [];
 
 async function loadProjectsPanel(page) {
   projPage = page;
@@ -643,7 +641,7 @@ async function loadProjectsPanel(page) {
         <td style="font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.title}</td>
         <td><span class="tag tag-blue">${projCatLabel[p.category] || p.category}</span></td>
         <td style="color:var(--gray)">${(p.images||[]).length}장</td>
-        <td>${p.youtube_url ? '✅' : '-'}</td>
+        <td style="color:var(--gray)">${(p.videos||[]).length}개</td>
         <td><span class="tag ${p.status==='published'?'tag-green':'tag-gray'}">${p.status==='published'?'공개':'비공개'}</span></td>
         <td style="color:var(--gray);font-size:12px">${formatDate(p.created_at)}</td>
         <td style="display:flex;gap:6px">
@@ -660,18 +658,27 @@ async function loadProjectsPanel(page) {
 
 function openProjectEditor(proj) {
   projEditImages = proj?.images || [];
+  projEditVideos = proj?.videos || [];
   document.getElementById('projectModalTitle').textContent = proj ? '🏗 프로젝트 수정' : '🏗 시공 프로젝트 추가';
   document.getElementById('proj-id').value = proj?.id || '';
   document.getElementById('proj-title').value = proj?.title || '';
   document.getElementById('proj-category').value = proj?.category || 'rc';
   document.getElementById('proj-desc').value = proj?.description || '';
   document.getElementById('proj-tags').value = (proj?.tags || []).join(', ');
-  document.getElementById('proj-youtube').value = proj?.youtube_url || '';
-  document.getElementById('proj-youtube2').value = proj?.youtube_url2 || '';
   document.getElementById('proj-status').value = proj?.status || 'published';
+  document.getElementById('proj-videos').value = '';
   document.getElementById('proj-images').value = '';
+  document.getElementById('proj-video-preview').innerHTML = '';
   document.getElementById('proj-img-preview').innerHTML = '';
   document.getElementById('proj-upload-progress').style.display = 'none';
+  // 기존 동영상 표시
+  const existVidEl = document.getElementById('proj-existing-videos');
+  existVidEl.innerHTML = projEditVideos.map((url, i) => `
+    <div style="position:relative;display:inline-block">
+      <video src="${url}" style="width:120px;height:72px;object-fit:cover;border-radius:8px;border:2px solid var(--border)" muted></video>
+      <span style="position:absolute;bottom:4px;left:4px;font-size:10px;color:#fff;background:rgba(0,0,0,.6);padding:1px 4px;border-radius:4px">영상 ${i+1}</span>
+      <button onclick="removeExistingVideo(${i})" style="position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;padding:0">×</button>
+    </div>`).join('');
   // 기존 이미지 표시
   const existEl = document.getElementById('proj-existing-imgs');
   existEl.innerHTML = projEditImages.map((url, i) => `
@@ -682,13 +689,35 @@ function openProjectEditor(proj) {
   document.getElementById('projectModal').classList.add('open');
 }
 
-function removeExistingImg(i) {
-  projEditImages.splice(i, 1);
-  openProjectEditor({ id: document.getElementById('proj-id').value, title: document.getElementById('proj-title').value,
+function _currentEditObj() {
+  return { id: document.getElementById('proj-id').value, title: document.getElementById('proj-title').value,
     category: document.getElementById('proj-category').value, description: document.getElementById('proj-desc').value,
     tags: document.getElementById('proj-tags').value.split(',').map(t=>t.trim()),
-    youtube_url: document.getElementById('proj-youtube').value, youtube_url2: document.getElementById('proj-youtube2').value, status: document.getElementById('proj-status').value,
-    images: projEditImages });
+    status: document.getElementById('proj-status').value,
+    images: projEditImages, videos: projEditVideos };
+}
+
+function removeExistingImg(i) {
+  projEditImages.splice(i, 1);
+  openProjectEditor(_currentEditObj());
+}
+
+function removeExistingVideo(i) {
+  projEditVideos.splice(i, 1);
+  openProjectEditor(_currentEditObj());
+}
+
+function previewVideos(input) {
+  const preview = document.getElementById('proj-video-preview');
+  preview.innerHTML = '';
+  Array.from(input.files).slice(0, 2).forEach((file, idx) => {
+    const url = URL.createObjectURL(file);
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative;display:inline-block';
+    wrap.innerHTML = `<video src="${url}" style="width:120px;height:72px;object-fit:cover;border-radius:8px;border:2px solid var(--green)" muted></video>
+      <span style="position:absolute;bottom:4px;left:4px;font-size:10px;color:#fff;background:rgba(0,0,0,.6);padding:1px 4px;border-radius:4px">영상 ${idx+1}</span>`;
+    preview.appendChild(wrap);
+  });
 }
 
 function previewImages(input) {
@@ -715,28 +744,42 @@ async function saveProject() {
     category: document.getElementById('proj-category').value,
     description: document.getElementById('proj-desc').value.trim(),
     tags: document.getElementById('proj-tags').value.split(',').map(t => t.trim()).filter(Boolean),
-    youtube_url: document.getElementById('proj-youtube').value.trim(),
-    youtube_url2: document.getElementById('proj-youtube2').value.trim(),
     status: document.getElementById('proj-status').value,
     images: [...projEditImages],
+    videos: [...projEditVideos],
   };
   try {
     const progressEl = document.getElementById('proj-upload-progress');
-    const files = document.getElementById('proj-images').files;
+    const imgFiles = document.getElementById('proj-images').files;
+    const vidFiles = document.getElementById('proj-videos').files;
+    const hasFiles = imgFiles.length > 0 || vidFiles.length > 0;
     let projectId = id;
     if (!id) {
       const row = await createProject(data);
       projectId = row.id;
-      if (files.length > 0) {
+      if (hasFiles) {
         progressEl.style.display = 'block';
-        const urls = await uploadProjectImages(projectId, files);
-        await updateProject(projectId, { images: urls });
+        if (imgFiles.length > 0) {
+          const imgUrls = await uploadProjectImages(projectId, imgFiles);
+          data.images = imgUrls;
+        }
+        if (vidFiles.length > 0) {
+          const vidUrls = await uploadProjectVideos(projectId, vidFiles);
+          data.videos = vidUrls;
+        }
+        await updateProject(projectId, { images: data.images, videos: data.videos });
       }
     } else {
-      if (files.length > 0) {
+      if (hasFiles) {
         progressEl.style.display = 'block';
-        const newUrls = await uploadProjectImages(id, files);
-        data.images = [...projEditImages, ...newUrls].slice(0, 7);
+        if (imgFiles.length > 0) {
+          const newImgUrls = await uploadProjectImages(id, imgFiles);
+          data.images = [...projEditImages, ...newImgUrls].slice(0, 7);
+        }
+        if (vidFiles.length > 0) {
+          const newVidUrls = await uploadProjectVideos(id, vidFiles);
+          data.videos = [...projEditVideos, ...newVidUrls].slice(0, 2);
+        }
       }
       await updateProject(id, data);
     }
