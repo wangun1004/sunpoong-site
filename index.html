@@ -32,7 +32,9 @@
       <a href="admin-login.html">해체계획서<br><span>작성</span></a>
       <a href="contact.html">CONTACT <span>문의하기</span></a>
     </nav>
-    <button class="hamburger" aria-label="메뉴">
+    <button class="hamburger" aria-label="메뉴"
+      ontouchstart="this.classList.toggle('open');document.getElementById('nav').classList.toggle('open');event.preventDefault();"
+      onclick="this.classList.toggle('open');document.getElementById('nav').classList.toggle('open');">
       <span></span><span></span><span></span>
     </button>
   </div>

@@ -23,7 +23,6 @@ body.home-page {
   min-height: 100vh;
   display: block;
   overflow-x: hidden;
-  padding-top: 68px; /* fixed 헤더 높이만큼 밀어냄 */
 }
 
 /* 첫 화면: 헤더 아래 100vh 채우기 */
@@ -35,11 +34,10 @@ body.home-page {
 
 /* ===== 헤더 ===== */
 #header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
+  position: relative;
+  z-index: 1000;
   background: #fff;
   box-shadow: 0 2px 12px rgba(0,0,0,.08);
-  z-index: 1000;
 }
 .header-inner {
   max-width: 1400px; margin: 0 auto;
@@ -83,7 +81,7 @@ nav a.active {
 }
 nav a.active span { color: rgba(255,255,255,.8); }
 
-.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; position: relative; z-index: 101; }
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 16px; position: relative; z-index: 1001; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); margin: 5px 0; transition: .3s; }
 
 /* ===== 히어로 ===== */
@@ -249,10 +247,9 @@ body:not(.home-page) {
   display: block;
   height: auto;
   overflow: auto;
-  padding-top: 68px; /* fixed 헤더 높이만큼 밀어냄 */
 }
 body:not(.home-page) #header {
-  z-index: 1000;
+  position: sticky; top: 0; z-index: 1000;
 }
 body:not(.home-page) #footer {
   height: auto; padding: 0;
