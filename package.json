@@ -1,0 +1,29 @@
+{
+  "name": "sunpoong-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sync": "node scripts/sync-www.js && npx cap sync android",
+    "dev": "node scripts/sync-www.js && npx cap run android --livereload --external",
+    "build": "node scripts/sync-www.js && npx cap sync android",
+    "open": "npx cap open android"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangun1004/sunpoong-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/wangun1004/sunpoong-site/issues"
+  },
+  "homepage": "https://github.com/wangun1004/sunpoong-site#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.3.1",
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1"
+  }
+}

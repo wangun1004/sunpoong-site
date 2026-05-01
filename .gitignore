@@ -2,6 +2,9 @@ node_modules/
 .DS_Store
 *.local
 
+# www (자동 생성됨 - npm run sync 로 재생성)
+www/
+
 # Android build artifacts
 android/.gradle/
 android/build/
@@ -10,3 +13,6 @@ android/local.properties
 android/.idea/workspace.xml
 android/.idea/caches/
 *.iml
+
+# Capacitor
+.capacitor/

@@ -1,0 +1,15 @@
+{
+  "appId": "com.bige.calculator",
+  "appName": "선풍건설산업",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "buildOptions": {
+      "keystorePath": null,
+      "keystoreAlias": null
+    }
+  }
+}
