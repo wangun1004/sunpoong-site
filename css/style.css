@@ -82,7 +82,7 @@ nav a.active {
 }
 nav a.active span { color: rgba(255,255,255,.8); }
 
-.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; position: relative; z-index: 101; }
 .hamburger span { display: block; width: 24px; height: 2px; background: var(--navy); margin: 5px 0; transition: .3s; }
 
 /* ===== 히어로 ===== */
@@ -97,8 +97,8 @@ nav a.active span { color: rgba(255,255,255,.8); }
   position: absolute; inset: 0;
   background-image: url('../images/hero-bg.jpg.png');
   background-size: cover; background-position: center 40%;
-  /* 이미지 없을 때 폴백 */
   background-color: #1a3a5c;
+  pointer-events: none;
 }
 .hero-overlay {
   position: absolute; inset: 0;
@@ -108,6 +108,7 @@ nav a.active span { color: rgba(255,255,255,.8); }
     rgba(15, 30, 70, 0.70) 45%,
     rgba(10, 20, 45, 0.30) 100%
   );
+  pointer-events: none;
 }
 .hero-inner {
   max-width: 1400px; margin: 0 auto; padding: 0 80px;
