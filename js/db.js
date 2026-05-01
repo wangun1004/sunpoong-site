@@ -265,6 +265,16 @@ async function deleteProject(id) {
   }
 }
 
+// ── 파일 → base64 변환 (페이지 이동 후에도 유지되는 영구 URL)
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = e => resolve(e.target.result)
+    reader.onerror = () => reject(new Error('파일 읽기 실패'))
+    reader.readAsDataURL(file)
+  })
+}
+
 async function uploadProjectImages(projectId, files) {
   const sb = getClient()
   const urls = []
@@ -279,11 +289,11 @@ async function uploadProjectImages(projectId, files) {
         const { data: { publicUrl } } = sb.storage.from('project-images').getPublicUrl(path)
         urls.push(publicUrl)
       } catch(e) {
-        // Storage 버킷 미생성 시 임시 URL fallback
-        urls.push(URL.createObjectURL(file))
+        // Storage 실패 시 base64 fallback (다른 페이지·세션에서도 유지됨)
+        urls.push(await fileToDataURL(file))
       }
     } else {
-      urls.push(URL.createObjectURL(file))
+      urls.push(await fileToDataURL(file))
     }
   }
   return urls
@@ -296,6 +306,7 @@ async function uploadProjectVideos(projectId, files) {
     const file = files[i]
     const ext = file.name.split('.').pop()
     const path = `${projectId}/${Date.now()}_${i}.${ext}`
+    const MB = file.size / 1024 / 1024
     if (sb) {
       try {
         const { error } = await sb.storage.from('project-videos').upload(path, file, {
@@ -305,11 +316,19 @@ async function uploadProjectVideos(projectId, files) {
         const { data: { publicUrl } } = sb.storage.from('project-videos').getPublicUrl(path)
         urls.push(publicUrl)
       } catch(e) {
-        // Storage 버킷 미생성 시 임시 URL fallback
-        urls.push(URL.createObjectURL(file))
+        // Storage 실패 시 base64 fallback (50MB 이하 파일만)
+        if (MB <= 50) {
+          urls.push(await fileToDataURL(file))
+        } else {
+          throw new Error(`동영상 업로드 실패 (${MB.toFixed(0)}MB). Supabase Storage 설정을 확인하거나 50MB 이하 파일을 사용하세요.`)
+        }
       }
     } else {
-      urls.push(URL.createObjectURL(file))
+      if (MB <= 50) {
+        urls.push(await fileToDataURL(file))
+      } else {
+        throw new Error(`동영상이 너무 큽니다 (${MB.toFixed(0)}MB). Supabase Storage 연결 후 이용하세요.`)
+      }
     }
   }
   return urls
