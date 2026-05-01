@@ -147,9 +147,13 @@ async function renderProjects(cat) {
       return;
     }
     grid.innerHTML = data.map(p => {
+      const icon = catIcons[p.category] || '🏗';
       const thumb = (p.images && p.images[0])
-        ? `<img src="${p.images[0]}" style="width:100%;height:100%;object-fit:cover;display:block" alt="${p.title}">`
-        : `<span style="font-size:56px">${catIcons[p.category]||'🏗'}</span>`;
+        ? `<img src="${p.images[0]}"
+            style="width:100%;height:100%;object-fit:cover;display:block" alt=""
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+          + `<span style="font-size:56px;display:none;width:100%;height:100%;align-items:center;justify-content:center">${icon}</span>`
+        : `<span style="font-size:56px">${icon}</span>`;
       return `
         <div class="project-card" onclick="openProjectDetail(${JSON.stringify(p).replace(/"/g,'&quot;')})">
           <div class="project-img" style="background:linear-gradient(135deg,${catColors[p.category]||'#1a2f5e'},${catColors[p.category]||'#1a2f5e'}99)">${thumb}</div>
@@ -157,7 +161,7 @@ async function renderProjects(cat) {
             <span class="project-cat">${catLabel[p.category]||p.category}</span>
             <h3>${p.title}</h3>
             <div class="project-meta">${(p.tags||[]).map(t=>`<span>${t}</span>`).join('')}</div>
-            ${p.youtube_url||p.images?.length ? '<div style="margin-top:8px;font-size:12px;color:#22c55e">▶ 상세보기</div>' : ''}
+            ${(p.videos?.length||p.images?.length) ? '<div style="margin-top:8px;font-size:12px;color:#22c55e">▶ 상세보기</div>' : ''}
           </div>
         </div>`;
     }).join('');
@@ -191,18 +195,29 @@ function openProjectDetail(p) {
   const galleryEl = document.getElementById('pdGallery');
   const imgs = p.images || [];
   if (imgs.length > 0) {
-    document.getElementById('pdBigImg').src = imgs[0];
+    const bigImg = document.getElementById('pdBigImg');
+    bigImg.src = imgs[0];
+    bigImg.onerror = function() {
+      this.style.display = 'none';
+      this.parentElement.innerHTML = `<div style="height:200px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:14px">이미지를 불러올 수 없습니다</div>`;
+    };
     document.getElementById('pdThumbs').innerHTML = imgs.map((url, i) =>
-      `<img src="${url}" onclick="document.getElementById('pdBigImg').src='${url}'"
+      `<img src="${url}" onclick="setBigImg('${url}')"
         style="width:64px;height:64px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid ${i===0?'#22c55e':'#e2e8f0'};transition:.2s"
-        onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='${i===0?'#22c55e':'#e2e8f0'}'">
-      `).join('');
+        onmouseover="this.style.borderColor='#22c55e'" onmouseout="this.style.borderColor='${i===0?'#22c55e':'#e2e8f0'}'"
+        onerror="this.style.opacity='.3';this.style.cursor='default'">`
+    ).join('');
     galleryEl.style.display = 'block';
   } else { galleryEl.style.display = 'none'; }
 
   const modal = document.getElementById('projDetailModal');
   modal.style.display = 'block';
   modal.scrollTop = 0;
+}
+
+function setBigImg(url) {
+  const el = document.getElementById('pdBigImg');
+  if (el) { el.style.display = 'block'; el.src = url; }
 }
 
 // 모달 배경 클릭 닫기
