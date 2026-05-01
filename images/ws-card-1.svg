@@ -1,78 +1,226 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240">
-  <!-- 배경: 실내 -->
-  <rect width="400" height="240" fill="#e8e0d4"/>
-  <!-- 바닥 -->
-  <rect x="0" y="195" width="400" height="45" fill="#8b7355"/>
-  <!-- 벽면 (좌측 뜯긴 상태) -->
-  <rect x="0" y="0" width="400" height="198" fill="#f0e8dc"/>
-  <!-- 좌측 벽 뜯긴 부분 -->
-  <rect x="0" y="20" width="170" height="178" fill="#c8b89a"/>
-  <!-- 내부 구조 노출 (가로 목재) -->
-  <rect x="0" y="40" width="170" height="8" fill="#8b6914"/>
-  <rect x="0" y="80" width="170" height="8" fill="#8b6914"/>
-  <rect x="0" y="120" width="170" height="8" fill="#8b6914"/>
-  <rect x="0" y="160" width="170" height="8" fill="#8b6914"/>
-  <!-- 세로 목재 구조재 -->
-  <rect x="20" y="20" width="7" height="176" fill="#7a5c10"/>
-  <rect x="60" y="20" width="7" height="176" fill="#7a5c10"/>
-  <rect x="100" y="20" width="7" height="176" fill="#7a5c10"/>
-  <rect x="140" y="20" width="7" height="176" fill="#7a5c10"/>
-  <!-- 우측 멀쩡한 벽면 -->
-  <rect x="165" y="0" width="235" height="198" fill="#f5f0e8"/>
-  <!-- 우측 벽면 타일/도배 패턴 -->
-  <line x1="165" y1="60" x2="400" y2="60" stroke="#e8e0d0" stroke-width="1"/>
-  <line x1="165" y1="120" x2="400" y2="120" stroke="#e8e0d0" stroke-width="1"/>
-  <line x1="165" y1="180" x2="400" y2="180" stroke="#e8e0d0" stroke-width="1"/>
-  <line x1="220" y1="0" x2="220" y2="198" stroke="#e8e0d0" stroke-width="1"/>
-  <line x1="280" y1="0" x2="280" y2="198" stroke="#e8e0d0" stroke-width="1"/>
-  <line x1="340" y1="0" x2="340" y2="198" stroke="#e8e0d0" stroke-width="1"/>
-  <!-- 천장 -->
-  <rect x="0" y="0" width="400" height="22" fill="#d8cec0"/>
-  <!-- 전선 노출 -->
-  <line x1="60" y1="22" x2="60" y2="40" stroke="#f59e0b" stroke-width="2"/>
-  <line x1="100" y1="22" x2="100" y2="40" stroke="#f59e0b" stroke-width="2"/>
-  <!-- 먼지 효과 -->
-  <circle cx="180" cy="80" r="30" fill="white" opacity="0.25"/>
-  <circle cx="160" cy="60" r="18" fill="white" opacity="0.2"/>
-  <circle cx="200" cy="100" r="20" fill="white" opacity="0.15"/>
-  <!-- 바닥 잔해 (좌측) -->
-  <ellipse cx="90" cy="200" rx="70" ry="12" fill="#7a6040" opacity="0.5"/>
-  <rect x="30" y="192" width="25" height="12" rx="2" fill="#a08060" transform="rotate(-8 42 198)"/>
-  <rect x="65" y="190" width="30" height="10" rx="2" fill="#9a7850" transform="rotate(5 80 195)"/>
-  <rect x="110" y="193" width="20" height="10" rx="2" fill="#b09070" transform="rotate(-12 120 198)"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_1" data-name="레이어_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 400 240">
+  <!-- Generator: Adobe Illustrator 29.7.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 8)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #374151;
+      }
 
-  <!-- ===== 미니 굴착기 ===== -->
-  <!-- 무한궤도 -->
-  <rect x="185" y="174" width="90" height="22" rx="8" fill="#1e293b"/>
-  <circle cx="198" cy="185" r="9" fill="#334155"/>
-  <circle cx="263" cy="185" r="9" fill="#334155"/>
-  <rect x="198" y="176" width="65" height="18" fill="#334155"/>
-  <!-- 바퀴 허브 -->
-  <circle cx="198" cy="185" r="5" fill="#64748b"/>
-  <circle cx="263" cy="185" r="5" fill="#64748b"/>
-  <!-- 본체 -->
-  <rect x="192" y="148" width="84" height="30" rx="5" fill="#22c55e" stroke="#16a34a" stroke-width="2"/>
-  <!-- 캐빈 -->
-  <rect x="240" y="130" width="36" height="22" rx="4" fill="#4ade80" stroke="#16a34a" stroke-width="1.5"/>
-  <rect x="244" y="133" width="26" height="12" rx="2" fill="#bfdbfe" stroke="#93c5fd" stroke-width="0.8"/>
-  <!-- 굴착기 암 (좌측 방향으로) -->
-  <line x1="205" y1="150" x2="160" y2="100" stroke="#374151" stroke-width="10" stroke-linecap="round"/>
-  <line x1="160" y1="100" x2="120" y2="70" stroke="#374151" stroke-width="8" stroke-linecap="round"/>
-  <!-- 버킷 -->
-  <polygon points="108,58 125,55 130,78 106,80" fill="#6b7280" stroke="#374151" stroke-width="1.5"/>
-  <!-- 버킷 이빨 -->
-  <line x1="112" y1="80" x2="108" y2="88" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
-  <line x1="118" y1="80" x2="116" y2="89" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
-  <line x1="125" y1="79" x2="124" y2="88" stroke="#374151" stroke-width="3" stroke-linecap="round"/>
-  <!-- 굴착기 회전 조인트 -->
-  <circle cx="205" cy="150" r="8" fill="#374151"/>
-  <circle cx="160" cy="100" r="6" fill="#374151"/>
-  <!-- 배기 연기 -->
-  <circle cx="247" cy="118" r="5" fill="#9ca3af" opacity="0.6"/>
-  <circle cx="252" cy="110" r="4" fill="#9ca3af" opacity="0.4"/>
-  <circle cx="248" cy="103" r="3" fill="#9ca3af" opacity="0.3"/>
+      .st1 {
+        fill: #a08060;
+      }
 
-  <!-- 텍스트 배너 -->
-  <rect x="0" y="210" width="400" height="30" fill="rgba(28,92,48,0.9)"/>
-  <text x="200" y="230" font-family="'Noto Sans KR', sans-serif" font-size="13" font-weight="bold" fill="white" text-anchor="middle">상가·사무실·주거 인테리어 전문 철거</text>
+      .st2 {
+        fill: #bfdbfe;
+        stroke: #93c5fd;
+        stroke-width: .8px;
+      }
+
+      .st3 {
+        fill: #8b7355;
+      }
+
+      .st4 {
+        fill: #7a6040;
+        opacity: .5;
+      }
+
+      .st4, .st5, .st6, .st7, .st8, .st9, .st10, .st11 {
+        isolation: isolate;
+      }
+
+      .st12 {
+        stroke-width: 8px;
+      }
+
+      .st12, .st13, .st14, .st15 {
+        stroke: #374151;
+      }
+
+      .st12, .st16, .st14, .st15, .st17 {
+        fill: none;
+      }
+
+      .st12, .st14, .st15 {
+        stroke-linecap: round;
+      }
+
+      .st18 {
+        fill: #9a7850;
+      }
+
+      .st5 {
+        opacity: .4;
+      }
+
+      .st5, .st9, .st11 {
+        fill: #9ca3af;
+      }
+
+      .st13 {
+        fill: #6b7280;
+      }
+
+      .st13, .st19 {
+        stroke-width: 1.5px;
+      }
+
+      .st20 {
+        fill: #8b6914;
+      }
+
+      .st6 {
+        opacity: .15;
+      }
+
+      .st6, .st7, .st8, .st10 {
+        fill: #fff;
+      }
+
+      .st19 {
+        fill: #4ade80;
+      }
+
+      .st19, .st21 {
+        stroke: #16a34a;
+      }
+
+      .st7 {
+        font-family: MalgunGothicBold, 'Malgun Gothic';
+        font-size: 13px;
+      }
+
+      .st22 {
+        fill: #7a5c10;
+      }
+
+      .st23 {
+        fill: #334155;
+      }
+
+      .st24 {
+        fill: #1e293b;
+      }
+
+      .st25 {
+        fill: #b09070;
+      }
+
+      .st26 {
+        fill: #d8cec0;
+      }
+
+      .st8 {
+        opacity: .25;
+      }
+
+      .st27 {
+        fill: #f0e8dc;
+      }
+
+      .st9 {
+        opacity: .6;
+      }
+
+      .st28 {
+        fill: #c8b89a;
+      }
+
+      .st16 {
+        stroke: #f59e0b;
+      }
+
+      .st16, .st21 {
+        stroke-width: 2px;
+      }
+
+      .st29 {
+        fill: #f5f0e8;
+      }
+
+      .st30 {
+        fill: #64748b;
+      }
+
+      .st14 {
+        stroke-width: 10px;
+      }
+
+      .st21 {
+        fill: #22c55e;
+      }
+
+      .st15 {
+        stroke-width: 3px;
+      }
+
+      .st10 {
+        opacity: .2;
+      }
+
+      .st11 {
+        opacity: .3;
+      }
+
+      .st31 {
+        fill: #e8e0d4;
+      }
+
+      .st17 {
+        stroke: #e8e0d0;
+      }
+    </style>
+  </defs>
+  <rect class="st31" y="0" width="400" height="240"/>
+  <rect class="st3" y="195" width="400" height="45"/>
+  <rect class="st27" y="0" width="400" height="198"/>
+  <rect class="st28" y="20" width="170" height="178"/>
+  <rect class="st20" y="40" width="170" height="8"/>
+  <rect class="st20" y="80" width="170" height="8"/>
+  <rect class="st20" y="120" width="170" height="8"/>
+  <rect class="st20" y="160" width="170" height="8"/>
+  <rect class="st22" x="20" y="20" width="7" height="176"/>
+  <rect class="st22" x="60" y="20" width="7" height="176"/>
+  <rect class="st22" x="100" y="20" width="7" height="176"/>
+  <rect class="st22" x="140" y="20" width="7" height="176"/>
+  <rect class="st29" x="165" y="0" width="235" height="198"/>
+  <line class="st17" x1="165" y1="60" x2="400" y2="60"/>
+  <line class="st17" x1="165" y1="120" x2="400" y2="120"/>
+  <line class="st17" x1="165" y1="180" x2="400" y2="180"/>
+  <line class="st17" x1="220" y1="0" x2="220" y2="198"/>
+  <line class="st17" x1="280" y1="0" x2="280" y2="198"/>
+  <line class="st17" x1="340" y1="0" x2="340" y2="198"/>
+  <rect class="st26" y="0" width="400" height="22"/>
+  <line class="st16" x1="60" y1="22" x2="60" y2="40"/>
+  <line class="st16" x1="100" y1="22" x2="100" y2="40"/>
+  <circle class="st8" cx="180" cy="80" r="30"/>
+  <circle class="st10" cx="160" cy="60" r="18"/>
+  <circle class="st6" cx="200" cy="100" r="20"/>
+  <ellipse class="st4" cx="90" cy="200" rx="70" ry="12"/>
+  <rect class="st1" x="30" y="191.93" width="25" height="12" rx="2" ry="2" transform="translate(-27.13 7.84) rotate(-8)"/>
+  <rect class="st18" x="75" y="180" width="10" height="30" rx="2" ry="2" transform="translate(-121.23 257.7) rotate(-85)"/>
+  <rect class="st25" x="110" y="193" width="20" height="10" rx="2" ry="2" transform="translate(-38.54 29.28) rotate(-12)"/>
+  <rect class="st24" x="185" y="174" width="90" height="22" rx="8" ry="8"/>
+  <circle class="st23" cx="198" cy="185" r="9"/>
+  <circle class="st23" cx="263" cy="185" r="9"/>
+  <rect class="st23" x="198" y="176" width="65" height="18"/>
+  <circle class="st30" cx="198" cy="185" r="5"/>
+  <circle class="st30" cx="263" cy="185" r="5"/>
+  <rect class="st21" x="192" y="148" width="84" height="30" rx="5" ry="5"/>
+  <rect class="st19" x="240" y="130" width="36" height="22" rx="4" ry="4"/>
+  <rect class="st2" x="244" y="133" width="26" height="12" rx="2" ry="2"/>
+  <line class="st14" x1="205" y1="150" x2="160" y2="100"/>
+  <line class="st12" x1="160" y1="100" x2="120" y2="70"/>
+  <polygon class="st13" points="108 58 125 55 130 78 106 80 108 58"/>
+  <line class="st15" x1="112" y1="80" x2="108" y2="88"/>
+  <line class="st15" x1="118" y1="80" x2="116" y2="89"/>
+  <line class="st15" x1="125" y1="79" x2="124" y2="88"/>
+  <circle class="st0" cx="205" cy="150" r="8"/>
+  <circle class="st0" cx="160" cy="100" r="6"/>
+  <circle class="st9" cx="247" cy="118" r="5"/>
+  <circle class="st5" cx="252" cy="110" r="4"/>
+  <circle class="st11" cx="248" cy="103" r="3"/>
+  <rect y="210" width="400" height="30"/>
+  <text class="st7" transform="translate(117.13 230)"><tspan x="0" y="0">상가·사무실·주거 인테리어 전문 철거</tspan></text>
 </svg>
