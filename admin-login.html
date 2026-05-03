@@ -180,9 +180,11 @@
   </div>
 
   <script>
+    var redirectTarget = new URLSearchParams(location.search).get('redirect') || 'demolition.html';
+
     // 이미 로그인되어 있으면 바로 이동
     if (sessionStorage.getItem('sp_admin') === 'ok') {
-      location.href = 'demolition.html';
+      location.href = redirectTarget;
     }
 
     document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -196,7 +198,7 @@
 
       if (id === ADMIN_ID && pw === ADMIN_PW) {
         sessionStorage.setItem('sp_admin', 'ok');
-        location.href = 'demolition.html';
+        location.href = redirectTarget;
       } else {
         document.getElementById('errorMsg').classList.add('show');
         document.getElementById('password').value = '';

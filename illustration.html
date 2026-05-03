@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이미지 → 일러스트 변환 – 선풍건설산업</title>
+  <script>
+    if (sessionStorage.getItem('sp_admin') !== 'ok') {
+      location.replace('admin-login.html?redirect=illustration.html');
+    }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231a2f5e' width='100' height='100' rx='16'/><text y='72' x='12' font-size='72' font-weight='900' fill='white'>SP</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero {
+      background: linear-gradient(135deg, var(--navy), #4f46e5);
+      color: #fff; padding: 60px 24px; text-align: center;
+    }
+    .page-hero h1 { font-size: 36px; font-weight: 900; }
+    .page-hero p  { font-size: 16px; color: #c7d2fe; margin-top: 12px; }
+
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+
+    /* API 키 설정 */
+    .api-key-bar {
+      background: #fffbeb; border: 1px solid #fcd34d;
+      border-radius: 10px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .api-key-bar label { font-size: 13px; font-weight: 700; color: #92400e; white-space: nowrap; }
+    .api-key-bar input {
+      flex: 1; min-width: 200px; border: 1px solid #fcd34d;
+      border-radius: 6px; padding: 8px 12px; font-size: 13px;
+      font-family: monospace; background: #fff;
+    }
+    .api-key-bar button {
+      background: #f59e0b; color: #fff; border: none;
+      border-radius: 6px; padding: 8px 16px; font-size: 13px;
+      font-weight: 700; cursor: pointer; white-space: nowrap;
+    }
+    .api-key-bar button:hover { background: #d97706; }
+    .api-key-saved { font-size: 12px; color: #16a34a; font-weight: 600; display: none; }
+
+    /* 스타일 선택 */
+    .style-select-wrap { margin-bottom: 24px; }
+    .style-select-wrap label { font-size: 14px; font-weight: 700; color: var(--navy); display: block; margin-bottom: 10px; }
+    .style-grid {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .style-btn {
+      padding: 8px 18px; border-radius: 50px;
+      border: 2px solid var(--border); background: #fff;
+      font-size: 13px; font-weight: 600; color: #374151;
+      cursor: pointer; transition: all .2s;
+    }
+    .style-btn:hover { border-color: var(--navy); color: var(--navy); }
+    .style-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+    /* 업로드 영역 */
+    .upload-zone {
+      border: 2px dashed var(--border); border-radius: 16px;
+      padding: 48px 24px; text-align: center; cursor: pointer;
+      transition: all .2s; background: var(--light); margin-bottom: 24px;
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: #4f46e5; background: #eef2ff;
+    }
+    .upload-zone input[type=file] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-zone .icon { font-size: 48px; margin-bottom: 12px; }
+    .upload-zone p { font-size: 15px; color: var(--gray); }
+    .upload-zone strong { color: #4f46e5; }
+
+    /* 변환 버튼 */
+    .convert-btn {
+      width: 100%; padding: 18px; background: #4f46e5; color: #fff;
+      border: none; border-radius: 12px; font-size: 18px; font-weight: 800;
+      cursor: pointer; transition: all .2s; display: flex; align-items: center;
+      justify-content: center; gap: 10px; margin-bottom: 36px;
+    }
+    .convert-btn:hover:not(:disabled) { background: #4338ca; transform: translateY(-2px); }
+    .convert-btn:disabled { background: #a5b4fc; cursor: not-allowed; transform: none; }
+
+    /* 결과 영역 */
+    .result-section { display: none; }
+    .result-section.show { display: block; }
+    .result-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      margin-bottom: 24px;
+    }
+    .result-card {
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    .result-card-header {
+      padding: 12px 16px; font-size: 13px; font-weight: 700;
+      background: var(--navy); color: #fff;
+    }
+    .result-card img { width: 100%; height: 320px; object-fit: contain; background: #f1f5f9; }
+
+    .download-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green); color: #fff; padding: 14px 32px;
+      border-radius: 50px; font-size: 15px; font-weight: 700;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: all .2s;
+    }
+    .download-btn:hover { background: var(--green2); transform: translateY(-2px); }
+
+    /* 진행 상태 */
+    .progress-wrap { display: none; margin-bottom: 24px; }
+    .progress-wrap.show { display: block; }
+    .progress-step {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; border-radius: 8px; background: #f8fafc;
+      margin-bottom: 8px; font-size: 14px; color: var(--gray);
+    }
+    .progress-step.active { background: #eef2ff; color: #4f46e5; font-weight: 600; }
+    .progress-step.done { background: #f0fdf4; color: #16a34a; font-weight: 600; }
+    .progress-step .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: currentColor; flex-shrink: 0;
+    }
+    .progress-step.active .dot { animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .error-box {
+      background: #fef2f2; border: 1px solid #fca5a5;
+      border-radius: 10px; padding: 16px 20px; color: #991b1b;
+      font-size: 14px; margin-bottom: 20px; display: none;
+    }
+    .error-box.show { display: block; }
+
+    @media(max-width:640px) {
+      .result-grid { grid-template-columns: 1fr; }
+      .page-hero h1 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><span class="logo-s">S</span><span class="logo-p">p</span></div>
+      <div class="logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div>
+    </a>
+    <nav id="nav">
+      <a href="index.html">HOME <span>홈</span></a>
+      <a href="about.html">ABOUT US <span>회사소개</span></a>
+      <a href="services.html">SERVICES <span>서비스</span></a>
+      <a href="projects.html">PROJECTS <span>프로젝트</span></a>
+      <a href="admin-login.html">해체계획서<br><span>작성</span></a>
+      <a href="contact.html">CONTACT <span>문의하기</span></a>
+      <a href="calculator.html">비계계산기<br><span>파이프 수량</span></a>
+      <a href="illustration.html" class="active">이미지변환<br><span>일러스트</span></a>
+      <a href="admin/index.html">관리자</a>
+    </nav>
+    <button class="hamburger" aria-label="메뉴"
+      ontouchstart="this.classList.toggle('open');document.getElementById('nav').classList.toggle('open');event.preventDefault();"
+      onclick="this.classList.toggle('open');document.getElementById('nav').classList.toggle('open');">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<section class="page-hero">
+  <h1>🎨 이미지 → 일러스트 변환</h1>
+  <p>사진을 업로드하면 AI가 분석하여 원하는 스타일의 일러스트로 변환합니다</p>
+</section>
+
+<div class="wrap">
+
+  <!-- API 키 설정 -->
+  <div class="api-key-bar">
+    <label>🔑 OpenAI API Key</label>
+    <input type="password" id="apiKeyInput" placeholder="sk-..." autocomplete="off">
+    <button onclick="saveApiKey()">저장</button>
+    <span class="api-key-saved" id="apiKeySaved">✓ 저장됨</span>
+  </div>
+
+  <!-- 스타일 선택 -->
+  <div class="style-select-wrap">
+    <label>변환 스타일 선택</label>
+    <div class="style-grid">
+      <button class="style-btn active" data-style="flat illustration">플랫 일러스트</button>
+      <button class="style-btn" data-style="watercolor painting">수채화</button>
+      <button class="style-btn" data-style="comic book style">만화/웹툰</button>
+      <button class="style-btn" data-style="vector art">벡터 아트</button>
+      <button class="style-btn" data-style="oil painting">유화</button>
+      <button class="style-btn" data-style="pencil sketch">연필 스케치</button>
+      <button class="style-btn" data-style="anime style">애니메이션</button>
+      <button class="style-btn" data-style="minimalist line art">미니멀 라인아트</button>
+    </div>
+  </div>
+
+  <!-- 업로드 -->
+  <div class="upload-zone" id="dropZone">
+    <input type="file" id="fileInput" accept="image/*">
+    <div class="icon">📁</div>
+    <p><strong>클릭하거나 이미지를 드래그</strong>하여 업로드</p>
+    <p style="font-size:12px;margin-top:6px;">JPG, PNG, WEBP · 최대 20MB</p>
+  </div>
+
+  <!-- 오류 메시지 -->
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- 진행 상태 -->
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-step" id="step1">
+      <div class="dot"></div> 1단계: 이미지 분석 중 (GPT-4o Vision)
+    </div>
+    <div class="progress-step" id="step2">
+      <div class="dot"></div> 2단계: 일러스트 생성 중 (DALL-E 3)
+    </div>
+  </div>
+
+  <!-- 변환 버튼 -->
+  <button class="convert-btn" id="convertBtn" onclick="startConvert()" disabled>
+    🎨 일러스트로 변환하기
+  </button>
+
+  <!-- 결과 -->
+  <div class="result-section" id="resultSection">
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="result-card-header">원본 이미지</div>
+        <img id="originalImg" src="" alt="원본">
+      </div>
+      <div class="result-card">
+        <div class="result-card-header">생성된 일러스트</div>
+        <img id="resultImg" src="" alt="결과">
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <a id="downloadBtn" class="download-btn" download="illustration.png">
+        ⬇ 일러스트 다운로드
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer style="background:var(--navy);color:#94a3b8;text-align:center;padding:24px;font-size:13px;margin-top:60px;">
+  © 2025 선풍건설산업. All rights reserved.
+</footer>
+
+<script>
+  var selectedStyle = 'flat illustration';
+  var uploadedFile = null;
+
+  // API 키 불러오기
+  (function() {
+    var saved = sessionStorage.getItem('openai_api_key');
+    if (saved) {
+      document.getElementById('apiKeyInput').value = saved;
+      document.getElementById('apiKeySaved').style.display = 'inline';
+    }
+  })();
+
+  function saveApiKey() {
+    var key = document.getElementById('apiKeyInput').value.trim();
+    if (!key.startsWith('sk-')) {
+      alert('올바른 OpenAI API 키를 입력하세요 (sk- 로 시작)');
+      return;
+    }
+    sessionStorage.setItem('openai_api_key', key);
+    document.getElementById('apiKeySaved').style.display = 'inline';
+    updateConvertBtn();
+  }
+
+  // 스타일 버튼
+  document.querySelectorAll('.style-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.style-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      selectedStyle = btn.dataset.style;
+    });
+  });
+
+  // 파일 업로드
+  var dropZone = document.getElementById('dropZone');
+  var fileInput = document.getElementById('fileInput');
+
+  fileInput.addEventListener('change', function() {
+    if (fileInput.files[0]) handleFile(fileInput.files[0]);
+  });
+
+  dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault(); dropZone.classList.add('dragover');
+  });
+  dropZone.addEventListener('dragleave', function() {
+    dropZone.classList.remove('dragover');
+  });
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault(); dropZone.classList.remove('dragover');
+    var f = e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  });
+
+  function handleFile(file) {
+    if (!file.type.startsWith('image/')) { showError('이미지 파일만 업로드 가능합니다.'); return; }
+    if (file.size > 20 * 1024 * 1024) { showError('파일 크기가 20MB를 초과합니다.'); return; }
+    uploadedFile = file;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      dropZone.innerHTML = '<img src="' + e.target.result + '" style="max-height:200px;border-radius:8px;margin:0 auto;">'
+                         + '<p style="margin-top:12px;font-size:13px;color:#4f46e5;">' + file.name + '</p>';
+      document.getElementById('originalImg').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    hideError();
+    updateConvertBtn();
+  }
+
+  function updateConvertBtn() {
+    var hasKey = !!sessionStorage.getItem('openai_api_key');
+    var hasFile = !!uploadedFile;
+    document.getElementById('convertBtn').disabled = !(hasKey && hasFile);
+  }
+
+  async function startConvert() {
+    var apiKey = sessionStorage.getItem('openai_api_key');
+    if (!apiKey) { showError('OpenAI API 키를 먼저 저장하세요.'); return; }
+    if (!uploadedFile) { showError('이미지를 업로드하세요.'); return; }
+
+    hideError();
+    document.getElementById('resultSection').classList.remove('show');
+    document.getElementById('convertBtn').disabled = true;
+    document.getElementById('progressWrap').classList.add('show');
+    setStep(1);
+
+    try {
+      // 1단계: GPT-4o로 이미지 분석
+      var base64 = await toBase64(uploadedFile);
+      var mimeType = uploadedFile.type;
+
+      var visionRes = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          max_tokens: 800,
+          messages: [{
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text: 'Describe this image in detail for use as a DALL-E 3 prompt. Focus on: subject, composition, colors, lighting, background, and any important details. Write only the description, no commentary. Be specific and vivid.'
+              },
+              {
+                type: 'image_url',
+                image_url: { url: 'data:' + mimeType + ';base64,' + base64, detail: 'high' }
+              }
+            ]
+          }]
+        })
+      });
+
+      if (!visionRes.ok) {
+        var err = await visionRes.json();
+        throw new Error(err.error?.message || '이미지 분석 실패');
+      }
+      var visionData = await visionRes.json();
+      var description = visionData.choices[0].message.content;
+
+      setStep(2);
+
+      // 2단계: DALL-E 3로 일러스트 생성
+      var dallePrompt = selectedStyle + ' style illustration of: ' + description
+                      + '. High quality, detailed, professional artwork.';
+
+      var dalleRes = await fetch('https://api.openai.com/v1/images/generations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        body: JSON.stringify({
+          model: 'dall-e-3',
+          prompt: dallePrompt,
+          n: 1,
+          size: '1024x1024',
+          quality: 'standard'
+        })
+      });
+
+      if (!dalleRes.ok) {
+        var err2 = await dalleRes.json();
+        throw new Error(err2.error?.message || '일러스트 생성 실패');
+      }
+      var dalleData = await dalleRes.json();
+      var imageUrl = dalleData.data[0].url;
+
+      // 결과 표시
+      var resultImg = document.getElementById('resultImg');
+      resultImg.src = imageUrl;
+      document.getElementById('downloadBtn').href = imageUrl;
+      document.getElementById('downloadBtn').target = '_blank';
+
+      doneSteps();
+      document.getElementById('resultSection').classList.add('show');
+      document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+
+    } catch(e) {
+      showError('오류: ' + e.message);
+      resetSteps();
+    } finally {
+      document.getElementById('convertBtn').disabled = false;
+    }
+  }
+
+  function toBase64(file) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        resolve(e.target.result.split(',')[1]);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function setStep(n) {
+    document.getElementById('step1').className = 'progress-step' + (n === 1 ? ' active' : n > 1 ? ' done' : '');
+    document.getElementById('step2').className = 'progress-step' + (n === 2 ? ' active' : '');
+  }
+  function doneSteps() {
+    document.getElementById('step1').className = 'progress-step done';
+    document.getElementById('step2').className = 'progress-step done';
+  }
+  function resetSteps() {
+    document.getElementById('step1').className = 'progress-step';
+    document.getElementById('step2').className = 'progress-step';
+  }
+  function showError(msg) {
+    var b = document.getElementById('errorBox');
+    b.textContent = msg; b.classList.add('show');
+  }
+  function hideError() {
+    document.getElementById('errorBox').classList.remove('show');
+  }
+</script>
+</body>
+</html>
