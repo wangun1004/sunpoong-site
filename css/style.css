@@ -534,3 +534,8 @@ section { padding: 80px 24px; }
   .ws-card-body h3 { font-size: 18px; }
   .ws-card-body p { font-size: 13px; }
 }
+
+@media (max-width: 1150px) and (min-width: 901px) {
+  nav a { padding: 6px 9px; font-size: 12px; }
+  nav a span { font-size: 10px; }
+}

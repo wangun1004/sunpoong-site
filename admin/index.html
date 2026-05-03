@@ -77,7 +77,9 @@ async function doLogin(e) {
       document.getElementById('email').value,
       document.getElementById('password').value
     );
-    location.href = 'dashboard.html';
+    const params = new URLSearchParams(location.search);
+    const redirect = params.get('redirect');
+    location.href = redirect || 'dashboard.html';
   } catch(err) {
     errEl.textContent = err.message;
     errEl.style.display = 'block';

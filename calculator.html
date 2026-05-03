@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>파이프 비계 수량 계산기 – 선풍건설산업</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231a2f5e' width='100' height='100' rx='16'/><text y='72' x='12' font-size='72' font-weight='900' fill='white'>SP</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero { background: linear-gradient(135deg, var(--navy), var(--navy2)); color: #fff; padding: 60px 24px; text-align: center; }
+    .page-hero h1 { font-size: 36px; font-weight: 900; }
+    .page-hero p { font-size: 16px; color: #cbd5e1; margin-top: 12px; }
+
+    /* ── 계산기 스타일 ── */
+    .calc-wrap { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+
+    .calc-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .calc-card h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a3a5c;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2eaf2;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media (max-width: 600px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+    .c-field { display: flex; flex-direction: column; gap: 5px; }
+    .c-field label { font-size: 0.82rem; font-weight: 600; color: #3a5a7a; }
+    .c-field input, .c-field select {
+      border: 1.5px solid #c8d8e8;
+      border-radius: 7px;
+      padding: 9px 12px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: border-color .2s;
+    }
+    .c-field input:focus, .c-field select:focus { outline: none; border-color: #3b82f6; }
+    .c-field .unit { font-size: 0.75rem; color: #7a9aba; }
+
+    .shape-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .shape-tab {
+      flex: 1; min-width: 100px;
+      padding: 10px 8px;
+      border: 2px solid #c8d8e8;
+      border-radius: 8px;
+      background: #f8fafc;
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #5a7a9a;
+      transition: all .2s;
+      user-select: none;
+    }
+    .shape-tab:hover { border-color: #93c5fd; background: #eff6ff; }
+    .shape-tab.active { border-color: #3b82f6; background: #eff6ff; color: #1d4ed8; }
+    .shape-icon { font-size: 1.4rem; display: block; margin-bottom: 2px; }
+
+    .shape-panel { display: none; }
+    .shape-panel.active { display: block; }
+
+    .perimeter-display {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #eff6ff;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .pipe-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .pipe-chip {
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 12px;
+      border: 1.5px solid #c8d8e8;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      cursor: pointer; user-select: none;
+      transition: all .18s;
+      background: #f8fafc; color: #3a5a7a; font-weight: 600;
+    }
+    .pipe-chip input[type=checkbox] { display: none; }
+    .pipe-chip.checked { border-color: #3b82f6; background: #eff6ff; color: #1d4ed8; }
+
+    .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+    .c-btn {
+      padding: 11px 28px;
+      border: none; border-radius: 8px;
+      font-size: 0.92rem; font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      font-family: inherit;
+    }
+    .c-btn:active { transform: scale(.97); }
+    .c-btn-primary { background: #2563eb; color: #fff; flex: 1; }
+    .c-btn-primary:hover { background: #1d4ed8; }
+    .c-btn-reset { background: #e2eaf2; color: #3a5a7a; }
+    .c-btn-reset:hover { background: #cbd5e1; }
+
+    #calc-results { display: none; }
+
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .summary-box { background: #f0f7ff; border: 1.5px solid #bfdbfe; border-radius: 10px; padding: 14px 16px; text-align: center; }
+    .summary-box .s-label { font-size: 0.75rem; color: #5a7a9a; margin-bottom: 4px; }
+    .summary-box .s-value { font-size: 1.4rem; font-weight: 700; color: #1d4ed8; }
+    .summary-box .s-unit { font-size: 0.75rem; color: #5a7a9a; }
+    .summary-box.orange { background: #fff7ed; border-color: #fed7aa; }
+    .summary-box.orange .s-value { color: #c2410c; }
+    .summary-box.pink { background: #fdf4ff; border-color: #f5d0fe; }
+    .summary-box.pink .s-value { color: #a21caf; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    thead tr { background: #1a3a5c; color: #fff; }
+    thead th { padding: 10px 12px; text-align: center; font-weight: 600; }
+    tbody tr { border-bottom: 1px solid #e2eaf2; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: #f8fafc; }
+    tbody tr:hover { background: #eff6ff; }
+    tbody td { padding: 9px 12px; text-align: center; }
+    tbody td:first-child { text-align: left; font-weight: 600; color: #1a3a5c; }
+    .td-num { font-weight: 700; color: #1d4ed8; }
+    .td-note { font-size: 0.78rem; color: #7a9aba; }
+    tfoot tr { background: #1a3a5c; color: #fff; font-weight: 700; }
+    tfoot td { padding: 10px 12px; text-align: center; }
+    tfoot td:first-child { text-align: left; }
+
+    .calc-notice {
+      background: #fefce8; border: 1.5px solid #fde68a;
+      border-radius: 8px; padding: 10px 14px;
+      font-size: 0.8rem; color: #78350f;
+      margin-top: 14px; line-height: 1.6;
+    }
+    .section-divider { height: 1px; background: #e2eaf2; margin: 18px 0; }
+
+    .clamp-toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .toggle-switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
+    .toggle-switch input { display: none; }
+    .toggle-slider { position: absolute; inset: 0; background: #c8d8e8; border-radius: 24px; cursor: pointer; transition: background .2s; }
+    .toggle-slider::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .2s; }
+    .toggle-switch input:checked + .toggle-slider { background: #2563eb; }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
+    .toggle-label { font-size: 0.88rem; font-weight: 600; color: #1a3a5c; }
+    .clamp-body { transition: opacity .2s; }
+    .clamp-body.disabled { opacity: .35; pointer-events: none; }
+
+    .clamp-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    @media (max-width: 600px) { .clamp-type-grid { grid-template-columns: 1fr; } }
+    .clamp-type-card { border: 2px solid #e2eaf2; border-radius: 10px; padding: 14px; background: #f8fafc; }
+    .clamp-type-card h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .badge-fixed { background:#dbeafe; color:#1d4ed8; padding:2px 8px; border-radius:10px; font-size:.75rem; }
+    .badge-swivel { background:#fce7f3; color:#be185d; padding:2px 8px; border-radius:10px; font-size:.75rem; }
+
+    .clamp-table-wrap { overflow-x: auto; margin-top: 16px; }
+    .clamp-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    .clamp-table thead tr { background: #1e3a5f; color: #fff; }
+    .clamp-table thead th { padding: 10px 12px; text-align: center; font-weight: 600; }
+    .clamp-table tbody tr { border-bottom: 1px solid #e2eaf2; }
+    .clamp-table tbody tr:nth-child(even) { background: #fdf4ff; }
+    .clamp-table tbody tr:hover { background: #fce7f3; }
+    .clamp-table tbody td { padding: 9px 12px; text-align: center; }
+    .clamp-table tbody td:first-child { text-align: left; font-weight: 600; color: #1a3a5c; }
+    .clamp-table tfoot tr { background: #1e3a5f; color: #fff; font-weight: 700; }
+    .clamp-table tfoot td { padding: 10px 12px; text-align: center; }
+    .clamp-table tfoot td:first-child { text-align: left; }
+    .td-fixed { font-weight: 700; color: #1d4ed8; }
+    .td-swivel { font-weight: 700; color: #be185d; }
+
+    @media print {
+      #header, #footer, .btn-row { display: none !important; }
+      .calc-card { box-shadow: none; border: 1px solid #ccc; }
+      #calc-results { display: block !important; }
+    }
+  </style>
+</head>
+<body style="display:none">
+
+<!-- 헤더 -->
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><span class="logo-s">S</span><span class="logo-p">p</span></div>
+      <div class="logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div>
+    </a>
+    <nav>
+      <a href="index.html">HOME 홈</a>
+      <a href="about.html">ABOUT US 회사소개</a>
+      <a href="services.html">SERVICES 서비스</a>
+      <a href="projects.html">PROJECTS 프로젝트</a>
+      <a href="board.html">공지/게시판</a>
+      <a href="admin-login.html">해체계획서 작성</a>
+      <a href="contact.html">CONTACT 문의하기</a>
+      <a href="calculator.html" class="active">비계 계산기</a>
+      <a href="admin/index.html">관리자</a>
+    </nav>
+    <button class="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="page-hero">
+  <h1>파이프 비계 수량 계산기</h1>
+  <p>건물 외곽 치수 입력 → 파이프 규격별 소요 수량 자동 산출</p>
+</div>
+
+<div class="calc-wrap">
+
+  <!-- 입력 섹션 -->
+  <div class="calc-card" id="input-section">
+    <h2>1. 건물 형태 선택</h2>
+    <div class="shape-tabs">
+      <div class="shape-tab active" data-shape="rect" onclick="selectShape('rect')">
+        <span class="shape-icon">▭</span>사각형
+      </div>
+      <div class="shape-tab" data-shape="l" onclick="selectShape('l')">
+        <span class="shape-icon">⌐</span>L자형
+      </div>
+      <div class="shape-tab" data-shape="u" onclick="selectShape('u')">
+        <span class="shape-icon">⊓</span>U자형 / ㄷ자형
+      </div>
+      <div class="shape-tab" data-shape="custom" onclick="selectShape('custom')">
+        <span class="shape-icon">✏️</span>둘레 직접 입력
+      </div>
+    </div>
+
+    <!-- 사각형 -->
+    <div class="shape-panel active" id="panel-rect">
+      <div class="grid-2">
+        <div class="c-field">
+          <label>가로 길이 (m)</label>
+          <input type="number" id="rect-w" min="1" step="0.1" placeholder="예: 20" oninput="calcPerimeter()" />
+        </div>
+        <div class="c-field">
+          <label>세로 길이 (m)</label>
+          <input type="number" id="rect-d" min="1" step="0.1" placeholder="예: 15" oninput="calcPerimeter()" />
+        </div>
+      </div>
+    </div>
+
+    <!-- L자형 -->
+    <div class="shape-panel" id="panel-l">
+      <p style="font-size:.8rem;color:#5a7a9a;margin-bottom:12px;">전체 외곽 치수를 입력하세요.</p>
+      <div class="grid-3">
+        <div class="c-field"><label>A (전체 가로, m)</label><input type="number" id="l-A" min="1" step="0.1" placeholder="20" oninput="calcPerimeter()" /></div>
+        <div class="c-field"><label>B (전체 세로, m)</label><input type="number" id="l-B" min="1" step="0.1" placeholder="15" oninput="calcPerimeter()" /></div>
+        <div class="c-field"><label>a (잘린 가로, m)</label><input type="number" id="l-a" min="1" step="0.1" placeholder="8" oninput="calcPerimeter()" /></div>
+        <div class="c-field"><label>b (잘린 세로, m)</label><input type="number" id="l-b" min="1" step="0.1" placeholder="6" oninput="calcPerimeter()" /></div>
+      </div>
+    </div>
+
+    <!-- U자형 -->
+    <div class="shape-panel" id="panel-u">
+      <p style="font-size:.8rem;color:#5a7a9a;margin-bottom:12px;">전체 외곽 치수와 안쪽 홈 치수를 입력하세요.</p>
+      <div class="grid-3">
+        <div class="c-field"><label>전체 가로 A (m)</label><input type="number" id="u-A" min="1" step="0.1" placeholder="20" oninput="calcPerimeter()" /></div>
+        <div class="c-field"><label>전체 세로 B (m)</label><input type="number" id="u-B" min="1" step="0.1" placeholder="15" oninput="calcPerimeter()" /></div>
+        <div class="c-field"><label>홈 가로 c (m)</label><input type="number" id="u-c" min="1" step="0.1" placeholder="8" oninput="calcPerimeter()" /></div>
+        <div class="c-field"><label>홈 세로 d (m)</label><input type="number" id="u-d" min="1" step="0.1" placeholder="5" oninput="calcPerimeter()" /></div>
+      </div>
+    </div>
+
+    <!-- 직접 입력 -->
+    <div class="shape-panel" id="panel-custom">
+      <div class="c-field">
+        <label>건물 외곽 둘레 (m)</label>
+        <input type="number" id="custom-perimeter" min="1" step="0.1" placeholder="예: 80" oninput="calcPerimeter()" />
+        <span class="unit">외곽 비계 설치 라인의 실측 둘레 합계</span>
+      </div>
+    </div>
+
+    <div class="perimeter-display" id="perimeter-display" style="display:none;">
+      산출 둘레: <span id="perimeter-value">0</span> m
+    </div>
+
+    <div class="section-divider"></div>
+    <h2>2. 비계 설치 조건</h2>
+    <div class="grid-3">
+      <div class="c-field">
+        <label>건물 높이 (m)</label>
+        <input type="number" id="height" min="1" step="0.1" placeholder="예: 15" />
+        <span class="unit">지면 ~ 최상단 비계</span>
+      </div>
+      <div class="c-field">
+        <label>수직재 간격 (m)</label>
+        <select id="v-spacing">
+          <option value="1.8" selected>1.8 m (표준)</option>
+          <option value="1.5">1.5 m</option>
+          <option value="1.2">1.2 m</option>
+          <option value="0.9">0.9 m</option>
+        </select>
+        <span class="unit">수평 방향 기둥 간격</span>
+      </div>
+      <div class="c-field">
+        <label>층고 (작업단 간격, m)</label>
+        <select id="floor-h">
+          <option value="1.8" selected>1.8 m (표준)</option>
+          <option value="2.0">2.0 m</option>
+          <option value="2.1">2.1 m</option>
+          <option value="2.4">2.4 m</option>
+        </select>
+        <span class="unit">수직 방향 발판 간격</span>
+      </div>
+      <div class="c-field">
+        <label>비계 이격 거리 (m)</label>
+        <input type="number" id="offset" min="0.3" max="1.5" step="0.1" value="0.6" />
+        <span class="unit">건물 벽면 ~ 비계 외측</span>
+      </div>
+      <div class="c-field">
+        <label>가새재 설치 방식</label>
+        <select id="brace-type">
+          <option value="x">X형 (교차 가새)</option>
+          <option value="single">단일 가새 (한방향)</option>
+          <option value="none">없음</option>
+        </select>
+      </div>
+      <div class="c-field">
+        <label>여유율 (%)</label>
+        <input type="number" id="margin" min="0" max="30" step="1" value="5" />
+        <span class="unit">할증 (손실·여유 포함)</span>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <h2>3. 사용 파이프 규격 선택 <span style="font-size:.78rem;font-weight:400;color:#7a9aba;">(복수 선택 가능)</span></h2>
+    <div class="pipe-list" id="pipe-list"></div>
+
+    <div class="section-divider"></div>
+    <h2>4. 클램프 수량 계산</h2>
+
+    <div class="clamp-toggle-row">
+      <label class="toggle-switch">
+        <input type="checkbox" id="clamp-enabled" checked onchange="toggleClampSection(this)" />
+        <span class="toggle-slider"></span>
+      </label>
+      <span class="toggle-label">클램프 수량 포함</span>
+    </div>
+
+    <div class="clamp-body" id="clamp-body">
+      <div class="clamp-type-grid">
+        <div class="clamp-type-card">
+          <h3>직교(고정) 클램프 <span class="badge-fixed">수직×수평 교차</span></h3>
+          <div class="c-field" style="margin-bottom:10px;">
+            <label>수직×수평 교차점당 클램프 수</label>
+            <select id="fixed-per-joint">
+              <option value="2" selected>2개 (양면 표준)</option>
+              <option value="1">1개 (단면)</option>
+            </select>
+            <span class="unit">기둥 1개 × 층 1개 기준, 좌우 수평재 연결</span>
+          </div>
+          <div class="c-field">
+            <label>추가 고정 클램프 (개)</label>
+            <input type="number" id="fixed-extra" min="0" step="1" value="0" placeholder="벽이음·보강 등 추가분" />
+            <span class="unit">벽이음철물, 구조 보강 등 직접 입력</span>
+          </div>
+        </div>
+        <div class="clamp-type-card">
+          <h3>자재(회전) 클램프 <span class="badge-swivel">가새·사재 연결</span></h3>
+          <div class="c-field" style="margin-bottom:10px;">
+            <label>가새재 단부 클램프 수</label>
+            <select id="swivel-per-end">
+              <option value="2" selected>2개 (양단 표준)</option>
+              <option value="1">1개 (단단)</option>
+            </select>
+            <span class="unit">가새재 1본당 연결 단부 수</span>
+          </div>
+          <div class="c-field">
+            <label>추가 자재 클램프 (개)</label>
+            <input type="number" id="swivel-extra" min="0" step="1" value="0" placeholder="사재·기타 추가분" />
+            <span class="unit">사재, 방호선반 등 직접 입력</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-notice">
+      ※ 본 계산기는 외줄비계(단관 비계) 기준입니다. 수직재·수평재는 선택 규격 중 최적 길이로 자동 배분됩니다.<br>
+      ※ <strong>고정(직교) 클램프</strong>: 수직재×수평재 직각 교차점에 사용 / <strong>자재(회전) 클램프</strong>: 가새재·경사재 연결에 사용<br>
+      ※ 발판·베이스플레이트·U헤드 등의 수량은 포함되지 않습니다.
+    </div>
+
+    <div class="btn-row">
+      <button class="c-btn c-btn-primary" onclick="calculate()">수량 계산</button>
+      <button class="c-btn c-btn-reset" onclick="resetAll()">초기화</button>
+    </div>
+  </div>
+
+  <!-- 결과 섹션 -->
+  <div class="calc-card" id="calc-results">
+    <h2>계산 결과</h2>
+
+    <div class="summary-grid" id="summary-grid"></div>
+
+    <div class="table-wrap">
+      <table id="result-table">
+        <thead>
+          <tr>
+            <th>파이프 규격</th>
+            <th>용도</th>
+            <th>산출 수량</th>
+            <th>여유 포함</th>
+            <th>단위</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody id="result-body"></tbody>
+        <tfoot id="result-foot"></tfoot>
+      </table>
+    </div>
+
+    <div id="clamp-results-section">
+      <div class="section-divider"></div>
+      <h2 style="color:#1a3a5c;">클램프 수량</h2>
+      <div class="clamp-table-wrap">
+        <table class="clamp-table">
+          <thead>
+            <tr>
+              <th>클램프 종류</th>
+              <th>산출 근거</th>
+              <th>산출 수량</th>
+              <th>여유 포함</th>
+              <th>단위</th>
+            </tr>
+          </thead>
+          <tbody id="clamp-body-result"></tbody>
+          <tfoot id="clamp-foot"></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+    <div id="calc-detail" style="font-size:.82rem;color:#5a7a9a;line-height:1.9;"></div>
+
+    <div class="btn-row">
+      <button class="c-btn c-btn-primary" onclick="window.print()">인쇄 / PDF 저장</button>
+      <button class="c-btn c-btn-reset" onclick="document.getElementById('calc-results').style.display='none'">닫기</button>
+    </div>
+  </div>
+
+</div><!-- /calc-wrap -->
+
+<!-- 푸터 -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      Address: 광주광역시 ○○구 ○○로 1205&nbsp;&nbsp;&nbsp;P: 015-125-9770&nbsp;&nbsp;&nbsp;Email: contact@sunpoong.co.kr
+    </div>
+    <a href="index.html" class="footer-logo">
+      <div class="footer-logo-icon"><span class="fl-s">S</span><span class="fl-p">p</span></div>
+      <div class="footer-logo-text"><div class="en">DEMOLITION</div><div class="kr">선풍건설산업</div></div>
+    </a>
+    <div class="footer-right">
+      <span class="copyright">© Copyright 2025. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/db.js"></script>
+<script src="js/app.js"></script>
+
+<!-- 관리자 인증 게이트: 비로그인 시 로그인 페이지로 이동 -->
+<script>
+(async () => {
+  const ok = await isAdminLoggedIn();
+  if (!ok) {
+    location.href = 'admin/index.html?redirect=../calculator.html';
+    return;
+  }
+  document.body.style.display = '';
+})();
+</script>
+
+<!-- 계산기 로직 -->
+<script>
+const PIPE_SIZES = [
+  { len: 0.9,  label: '0.9 m' },
+  { len: 1.2,  label: '1.2 m' },
+  { len: 1.5,  label: '1.5 m' },
+  { len: 1.8,  label: '1.8 m' },
+  { len: 2.1,  label: '2.1 m' },
+  { len: 2.4,  label: '2.4 m' },
+  { len: 3.0,  label: '3.0 m' },
+  { len: 3.6,  label: '3.6 m' },
+  { len: 4.0,  label: '4.0 m' },
+  { len: 5.0,  label: '5.0 m' },
+  { len: 6.0,  label: '6.0 m' },
+];
+
+const DEFAULT_SELECTED = new Set([1.8, 2.4, 3.0, 6.0]);
+let selectedSizes = new Set(DEFAULT_SELECTED);
+let currentShape = 'rect';
+
+function renderPipeList() {
+  const el = document.getElementById('pipe-list');
+  el.innerHTML = '';
+  PIPE_SIZES.forEach(p => {
+    const chip = document.createElement('label');
+    chip.className = 'pipe-chip' + (selectedSizes.has(p.len) ? ' checked' : '');
+    chip.innerHTML = `<input type="checkbox" value="${p.len}" ${selectedSizes.has(p.len) ? 'checked' : ''} onchange="togglePipe(${p.len}, this)" />${p.label}`;
+    el.appendChild(chip);
+  });
+}
+
+function togglePipe(len, cb) {
+  if (cb.checked) selectedSizes.add(len);
+  else selectedSizes.delete(len);
+  cb.parentElement.className = 'pipe-chip' + (cb.checked ? ' checked' : '');
+}
+
+function selectShape(shape) {
+  currentShape = shape;
+  document.querySelectorAll('.shape-tab').forEach(t => t.classList.toggle('active', t.dataset.shape === shape));
+  document.querySelectorAll('.shape-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + shape));
+  calcPerimeter();
+}
+
+function getPerimeter() {
+  let p = 0;
+  if (currentShape === 'rect') {
+    const w = +v('rect-w'), d = +v('rect-d');
+    if (w && d) p = 2 * (w + d);
+  } else if (currentShape === 'l') {
+    const A = +v('l-A'), B = +v('l-B'), a = +v('l-a'), b = +v('l-b');
+    if (A && B && a && b) p = (A + B + (A-a) + (B-b) + a + b);
+  } else if (currentShape === 'u') {
+    const A = +v('u-A'), B = +v('u-B'), c = +v('u-c'), d = +v('u-d');
+    if (A && B && c && d) p = A + 2*B + (A-c) + 2*d;
+  } else if (currentShape === 'custom') {
+    p = +v('custom-perimeter');
+  }
+  return Math.max(0, Math.round(p * 100) / 100);
+}
+
+function calcPerimeter() {
+  const p = getPerimeter();
+  const disp = document.getElementById('perimeter-display');
+  if (p > 0) {
+    disp.style.display = 'block';
+    document.getElementById('perimeter-value').textContent = p.toFixed(2);
+  } else {
+    disp.style.display = 'none';
+  }
+}
+
+function v(id) { return document.getElementById(id).value; }
+function ceil(n) { return Math.ceil(n); }
+
+function allocatePipes(totalLength, sizes) {
+  const sorted = [...sizes].sort((a, b) => b - a);
+  const counts = {};
+  sizes.forEach(s => counts[s] = 0);
+  let rem = totalLength;
+  for (const s of sorted) {
+    const n = Math.floor(rem / s);
+    counts[s] += n;
+    rem -= n * s;
+  }
+  if (rem > 0.001) {
+    const shortest = sorted[sorted.length - 1];
+    counts[shortest] += 1;
+  }
+  return counts;
+}
+
+function toggleClampSection(cb) {
+  document.getElementById('clamp-body').classList.toggle('disabled', !cb.checked);
+}
+
+function calculate() {
+  const perimeter = getPerimeter();
+  const height    = +v('height');
+  const vSpacing  = +v('v-spacing');
+  const floorH    = +v('floor-h');
+  const margin    = +v('margin') / 100;
+  const braceType = v('brace-type');
+  const clampEnabled = document.getElementById('clamp-enabled').checked;
+
+  if (!perimeter || perimeter <= 0) { alert('건물 둘레를 입력해주세요.'); return; }
+  if (!height    || height    <= 0) { alert('건물 높이를 입력해주세요.'); return; }
+  if (selectedSizes.size === 0)     { alert('파이프 규격을 하나 이상 선택해주세요.'); return; }
+
+  const sizes = [...selectedSizes].sort((a,b) => a - b);
+
+  const numPosts  = ceil(perimeter / vSpacing);
+  const numLayers = ceil(height / floorH);
+  const numFloors = numLayers + 1;
+
+  const totalVertical = numPosts * height;
+  const totalHoriz    = numFloors * perimeter;
+
+  const diagLen = Math.sqrt(vSpacing ** 2 + floorH ** 2);
+  const numBays = numPosts;
+  let totalBrace = 0;
+  if (braceType === 'x')           totalBrace = numBays * numLayers * diagLen * 2;
+  else if (braceType === 'single') totalBrace = numBays * numLayers * diagLen;
+
+  const allocV = allocatePipes(totalVertical, sizes);
+  const allocH = allocatePipes(totalHoriz,    sizes);
+  const allocB = braceType !== 'none' ? allocatePipes(totalBrace, sizes) : null;
+
+  const totalCounts = {};
+  sizes.forEach(s => {
+    totalCounts[s] = (allocV[s]||0) + (allocH[s]||0) + (allocB ? (allocB[s]||0) : 0);
+  });
+  const totalWithMargin = {};
+  sizes.forEach(s => { totalWithMargin[s] = ceil(totalCounts[s] * (1 + margin)); });
+
+  const totalPipes   = Object.values(totalWithMargin).reduce((a,b)=>a+b, 0);
+  const totalLength2 = sizes.reduce((a,s) => a + totalWithMargin[s]*s, 0);
+
+  const fixedPerJoint = +v('fixed-per-joint');
+  const fixedExtra    = +(document.getElementById('fixed-extra').value) || 0;
+  const fixedRaw      = numPosts * numFloors * fixedPerJoint + fixedExtra;
+  const fixedWithM    = ceil(fixedRaw * (1 + margin));
+
+  const swivelPerEnd = +v('swivel-per-end');
+  const swivelExtra  = +(document.getElementById('swivel-extra').value) || 0;
+  let numBraces = 0;
+  if (braceType === 'x')           numBraces = numBays * numLayers * 2;
+  else if (braceType === 'single') numBraces = numBays * numLayers;
+  const swivelRaw   = numBraces * swivelPerEnd + swivelExtra;
+  const swivelWithM = ceil(swivelRaw * (1 + margin));
+
+  const totalClampRaw   = clampEnabled ? fixedRaw  + swivelRaw  : 0;
+  const totalClampWithM = clampEnabled ? fixedWithM + swivelWithM : 0;
+
+  document.getElementById('summary-grid').innerHTML = `
+    <div class="summary-box"><div class="s-label">건물 둘레</div><div class="s-value">${perimeter.toFixed(1)}</div><div class="s-unit">m</div></div>
+    <div class="summary-box"><div class="s-label">비계 높이</div><div class="s-value">${height}</div><div class="s-unit">m</div></div>
+    <div class="summary-box"><div class="s-label">기둥 수</div><div class="s-value">${numPosts}</div><div class="s-unit">개</div></div>
+    <div class="summary-box"><div class="s-label">작업층 수</div><div class="s-value">${numLayers}</div><div class="s-unit">층</div></div>
+    <div class="summary-box"><div class="s-label">총 파이프 수</div><div class="s-value">${totalPipes.toLocaleString()}</div><div class="s-unit">본</div></div>
+    <div class="summary-box"><div class="s-label">총 연장</div><div class="s-value">${Math.round(totalLength2).toLocaleString()}</div><div class="s-unit">m</div></div>
+    ${clampEnabled ? `
+    <div class="summary-box orange"><div class="s-label">고정 클램프</div><div class="s-value">${fixedWithM.toLocaleString()}</div><div class="s-unit">개</div></div>
+    <div class="summary-box pink"><div class="s-label">자재 클램프</div><div class="s-value">${swivelWithM.toLocaleString()}</div><div class="s-unit">개</div></div>
+    ` : ''}
+  `;
+
+  const tbody = document.getElementById('result-body');
+  tbody.innerHTML = '';
+
+  const sections = [
+    { label: '수직재 (기둥)',    alloc: allocV, note: `${numPosts}개 × ${height}m` },
+    { label: '수평재 (띠장)',    alloc: allocH, note: `${numFloors}층 × ${perimeter.toFixed(1)}m` },
+    ...(braceType !== 'none' ? [{ label: '가새재 (브레이스)', alloc: allocB, note: `${numBays}베이 × ${numLayers}층` }] : []),
+  ];
+
+  sections.forEach(sec => {
+    const sectionTotal = sizes.reduce((a,s) => a + (sec.alloc[s]||0), 0);
+    const sectionWithM = ceil(sectionTotal * (1 + margin));
+    const sectionLen   = sizes.reduce((a,s) => a + (sec.alloc[s]||0)*s, 0);
+
+    sizes.forEach(s => {
+      const raw = sec.alloc[s] || 0;
+      if (raw === 0) return;
+      const withM = ceil(raw * (1 + margin));
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${s.toFixed(1)} m</td>
+        <td>${sec.label}</td>
+        <td class="td-num">${raw}</td>
+        <td class="td-num">${withM}</td>
+        <td>본</td>
+        <td class="td-note">${sec.note}</td>`;
+      tbody.appendChild(tr);
+    });
+
+    const trSub = document.createElement('tr');
+    trSub.style.background = '#e8f0fe';
+    trSub.innerHTML = `<td colspan="2" style="font-weight:700;color:#1a3a5c;font-size:.82rem;">▶ ${sec.label} 소계</td>
+      <td class="td-num">${sectionTotal}</td><td class="td-num">${sectionWithM}</td>
+      <td>본</td><td class="td-note">연장 ${sectionLen.toFixed(1)} m</td>`;
+    tbody.appendChild(trSub);
+  });
+
+  document.getElementById('result-foot').innerHTML = `<tr>
+    <td colspan="2">파이프 합계</td>
+    <td>${Object.values(totalCounts).reduce((a,b)=>a+b,0)}</td>
+    <td>${totalPipes}</td>
+    <td>본</td>
+    <td>총 연장 ${Math.round(totalLength2).toLocaleString()} m</td>
+  </tr>`;
+
+  const clampSection = document.getElementById('clamp-results-section');
+  clampSection.style.display = clampEnabled ? 'block' : 'none';
+
+  if (clampEnabled) {
+    const cbody = document.getElementById('clamp-body-result');
+    cbody.innerHTML = '';
+
+    const clampRows = [
+      {
+        name: '고정(직교) 클램프',
+        basis: `기둥 ${numPosts}개 × ${numFloors}층 × ${fixedPerJoint}개${fixedExtra ? ` + 추가 ${fixedExtra}개` : ''}`,
+        raw: fixedRaw, withM: fixedWithM, cls: 'td-fixed',
+      },
+      ...(braceType !== 'none' ? [{
+        name: '자재(회전) 클램프',
+        basis: `가새 ${numBraces}본 × 단부 ${swivelPerEnd}개${swivelExtra ? ` + 추가 ${swivelExtra}개` : ''}`,
+        raw: swivelRaw, withM: swivelWithM, cls: 'td-swivel',
+      }] : []),
+    ];
+
+    clampRows.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${row.name}</td>
+        <td style="text-align:left;font-size:.82rem;color:#5a7a9a;">${row.basis}</td>
+        <td class="${row.cls}">${row.raw.toLocaleString()}</td>
+        <td class="${row.cls}">${row.withM.toLocaleString()}</td>
+        <td>개</td>`;
+      cbody.appendChild(tr);
+    });
+
+    document.getElementById('clamp-foot').innerHTML = `<tr>
+      <td colspan="2">클램프 합계</td>
+      <td>${totalClampRaw.toLocaleString()}</td>
+      <td>${totalClampWithM.toLocaleString()}</td>
+      <td>개</td>
+    </tr>`;
+  }
+
+  document.getElementById('calc-detail').innerHTML = `
+    <strong>[ 계산 근거 ]</strong><br>
+    · 기둥 수: 둘레 ${perimeter.toFixed(1)}m ÷ 간격 ${vSpacing}m = ${numPosts}개<br>
+    · 수직재 총 길이: ${numPosts}개 × ${height}m = ${totalVertical.toFixed(1)}m<br>
+    · 수평재 총 길이: ${numFloors}층 × 둘레 ${perimeter.toFixed(1)}m = ${totalHoriz.toFixed(1)}m<br>
+    ${braceType !== 'none' ? `· 가새재 대각 길이: √(${vSpacing}²+${floorH}²) = ${diagLen.toFixed(2)}m × ${braceType==='x'?'2(X형)':'1(단방향)'} × ${numBays}베이 × ${numLayers}층 = ${totalBrace.toFixed(1)}m<br>` : ''}
+    ${clampEnabled ? `· 고정 클램프: ${numPosts} × ${numFloors} × ${fixedPerJoint}${fixedExtra ? ` + ${fixedExtra}` : ''} = ${fixedRaw}개 → 여유 후 ${fixedWithM}개<br>` : ''}
+    ${clampEnabled && braceType !== 'none' ? `· 자재 클램프: 가새 ${numBraces}본 × ${swivelPerEnd}${swivelExtra ? ` + ${swivelExtra}` : ''} = ${swivelRaw}개 → 여유 후 ${swivelWithM}개<br>` : ''}
+    · 여유율 ${(margin*100).toFixed(0)}% 적용
+  `;
+
+  document.getElementById('calc-results').style.display = 'block';
+  document.getElementById('calc-results').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetAll() {
+  document.querySelectorAll('.calc-wrap input[type=number]').forEach(el => el.value = '');
+  document.getElementById('margin').value = '5';
+  document.getElementById('offset').value = '0.6';
+  document.getElementById('fixed-extra').value = '0';
+  document.getElementById('swivel-extra').value = '0';
+  document.getElementById('clamp-enabled').checked = true;
+  document.getElementById('clamp-body').classList.remove('disabled');
+  document.getElementById('perimeter-display').style.display = 'none';
+  document.getElementById('calc-results').style.display = 'none';
+  selectedSizes = new Set(DEFAULT_SELECTED);
+  renderPipeList();
+  selectShape('rect');
+}
+
+renderPipeList();
+</script>
+</body>
+</html>
